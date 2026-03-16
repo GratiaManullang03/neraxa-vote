@@ -1,4 +1,5 @@
 {
+    "outputDirectory": ".",
     "rewrites": [
         {
             "source": "/admin",
@@ -27,7 +28,5 @@
                 }
             ]
         }
-    ],
-    "buildCommand": "node build.js",
-    "outputDirectory": "."
+    ]
 }

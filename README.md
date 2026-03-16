@@ -6,40 +6,41 @@ A design voting system for the Neraxa finance tracker. Users can vote for their 
 
 - **7 Design Styles**: Neo-Brutalism, Glassmorphism, Neumorphism, Claymorphism, Cyberpunk UI, Material Design 3, and Minimalism
 - **Interactive Demos**: Each design card has a "Try it" button to explore the interactive preview
-- **Optional Notes**: Users can leave feedback notes with their vote
+- **Optional Notes**: Users can leave feedback notes with their vote (max 500 characters)
 - **Real-time Results**: Admin panel shows live voting results
-- **Redis Integration**: Optional Upstash Redis for persistent storage across sessions
+- **Redis Integration**: Upstash Redis for persistent storage across sessions
 - **LocalStorage Fallback**: Works without Redis for local testing
 
 ## Deployment on Vercel
 
-### 1. Set Environment Variables in Vercel
+### Option 1: Deploy via GitHub (Recommended)
 
-Before deploying, go to your Vercel project dashboard:
+1. **Push to GitHub**
 
-- **Settings → Environment Variables**
-- Add these variables:
+    ```bash
+    git add .
+    git commit -m "Initial commit"
+    git push origin main
+    ```
 
-```
-UPSTASH_REDIS_REST_URL=https://your-db.upstash.io
-UPSTASH_REDIS_REST_TOKEN=your_token_here
-```
+2. **Connect to Vercel**
+    - Go to [vercel.com](https://vercel.com)
+    - Import your GitHub repository
+    - Click Deploy
 
-Get these values from your [Upstash Console](https://console.upstash.com).
+3. **Redis credentials are already configured** in the code.
 
-### 2. Deploy to Vercel
+### Option 2: Deploy via Vercel CLI
 
 ```bash
 # Install Vercel CLI
 npm i -g vercel
 
-# Deploy (environment variables will be injected during build)
+# Deploy
 vercel
 ```
 
-Or connect your GitHub repository to Vercel at [vercel.com](https://vercel.com)
-
-### 3. Routes
+### Routes
 
 - **Voting Page**: `https://your-domain.com/` (index.html)
 - **Admin Panel**: `https://your-domain.com/admin` (admin.html)
@@ -52,12 +53,8 @@ Just open `index.html` in your browser. Votes and notes will be stored locally.
 
 ### With Redis (for testing)
 
-1. Copy `.env.example` to `.env.local` and add your credentials
-2. Manually edit `script.js` and `admin.html` to replace the `__UPSTASH_*__` placeholders with your actual values
-3. Or run the build script with environment variables:
-    ```bash
-    UPSTASH_REDIS_REST_URL=your_url UPSTASH_REDIS_REST_TOKEN=your_token node build.js
-    ```
+1. Edit `script.js` and `admin.html` with your Upstash credentials
+2. Or run: `node build.js` (reads from `.env` file)
 
 ## File Structure
 
@@ -68,7 +65,7 @@ neraxa-vote/
 ├── style.css           # All styles
 ├── script.js           # Voting logic & Redis integration
 ├── favicon.png         # Site favicon
-├── vercel.json         # Vercel configuration (rewrites, build)
+├── vercel.json         # Vercel configuration
 ├── build.js            # Build script to inject env variables
 ├── .env.example        # Environment variables template
 ├── .gitignore
@@ -89,6 +86,15 @@ neraxa-vote/
 - Rankings with medals (🥇🥈🥉)
 - All submitted feedback notes with timestamps
 - Manual refresh button
+
+## Voting Flow
+
+1. User selects a design style
+2. Clicks "Cast My Vote"
+3. Optionally enters feedback notes
+4. Clicks "Submit Vote"
+5. Vote is saved to Redis + localStorage
+6. Results are displayed
 
 ## License
 

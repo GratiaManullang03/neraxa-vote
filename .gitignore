@@ -27,6 +27,3 @@ Thumbs.db
 # Build
 dist/
 build/
-
-# Build script
-build.js
