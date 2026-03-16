@@ -28,7 +28,3 @@ Thumbs.db
 dist/
 build/
 
-# Scripts
-clear-redis.js
-reset-votes.js
-build.js
