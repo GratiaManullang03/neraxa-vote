@@ -19,13 +19,13 @@ const KEY_VOTED = 'neraxa_v1_voted',
     KEY_NOTES = 'neraxa_v1_notes';
 
 const SEED = {
-    'Neo-Brutalism': 47,
-    Glassmorphism: 89,
-    Neumorphism: 34,
-    Claymorphism: 56,
-    'Cyberpunk UI': 73,
-    'Material Design': 61,
-    Minimalism: 45,
+    'Neo-Brutalism': 0,
+    Glassmorphism: 0,
+    Neumorphism: 0,
+    Claymorphism: 0,
+    'Cyberpunk UI': 0,
+    'Material Design': 0,
+    Minimalism: 0,
 };
 const MEDALS = { 0: '🥇', 1: '🥈', 2: '🥉' };
 

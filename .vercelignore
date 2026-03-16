@@ -4,3 +4,6 @@ node_modules/
 .gitignore
 .gitattributes
 *.log
+clear-redis.js
+reset-votes.js
+build.js

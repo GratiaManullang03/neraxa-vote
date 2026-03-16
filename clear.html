@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clear Local Data</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #0d0c0b;
+            color: #f0ebe3;
+        }
+        h1 { color: #c9a84c; }
+        button {
+            background: #c9a84c;
+            color: #0d0c0b;
+            border: none;
+            padding: 12px 24px;
+            font-weight: 700;
+            cursor: pointer;
+            border-radius: 6px;
+            margin: 10px 10px 10px 0;
+        }
+        button:hover { background: #e8c96a; }
+        .success { color: #4caf87; }
+        .info { color: #a29d96; margin-top: 20px; }
+        pre { 
+            background: #161412; 
+            padding: 15px; 
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>🗑️ Clear Voting Data</h1>
+    
+    <h3>Local Storage (Browser)</h3>
+    <button onclick="clearLocal()">Clear localStorage</button>
+    <button onclick="resetAll()">Reset Everything</button>
+    <div id="localStatus" class="info"></div>
+    
+    <h3 style="margin-top: 40px;">Redis (Server)</h3>
+    <p class="info">To clear Redis data, run on server:</p>
+    <pre>node reset-votes.js</pre>
+    
+    <h3>Links</h3>
+    <p><a href="/" style="color: #c9a84c;">← Back to Vote</a></p>
+    <p><a href="/admin" style="color: #c9a84c;">→ Go to Admin Panel</a></p>
+
+    <script>
+        function clearLocal() {
+            localStorage.removeItem('neraxa_v1_voted');
+            localStorage.removeItem('neraxa_v1_choice');
+            localStorage.removeItem('neraxa_v1_votes');
+            localStorage.removeItem('neraxa_v1_notes');
+            document.getElementById('localStatus').innerHTML = '<p class="success">✓ Local storage cleared!</p>';
+        }
+        
+        function resetAll() {
+            clearLocal();
+            location.reload();
+        }
+        
+        // Show current status
+        const voted = localStorage.getItem('neraxa_v1_voted');
+        const choice = localStorage.getItem('neraxa_v1_choice');
+        const votes = localStorage.getItem('neraxa_v1_votes');
+        const notes = localStorage.getItem('neraxa_v1_notes');
+        
+        document.getElementById('localStatus').innerHTML = `
+            <p><strong>Current localStorage:</strong></p>
+            <ul>
+                <li>Voted: ${voted ? 'Yes (' + voted + ')' : 'No'}</li>
+                <li>Choice: ${choice || 'None'}</li>
+                <li>Votes: ${votes ? 'Saved' : 'None'}</li>
+                <li>Notes: ${notes ? 'Saved' : 'None'}</li>
+            </ul>
+        `;
+    </script>
+</body>
+</html>

@@ -107,6 +107,7 @@
             }
             .notes-section-admin {
                 margin-top: 40px;
+                padding-bottom: 80px;
             }
             .notes-list {
                 display: flex;
@@ -164,6 +165,17 @@
                 background: var(--border);
                 color: var(--text);
             }
+            .refresh-btn.refreshing {
+                opacity: 0.6;
+                transform: rotate(180deg);
+                transition: transform 0.5s;
+            }
+            .last-updated {
+                font-size: 11px;
+                color: var(--text-dim);
+                margin-top: 8px;
+                text-align: right;
+            }
             .back-link {
                 display: inline-flex;
                 align-items: center;
@@ -193,6 +205,9 @@
                     <p class="admin-subtitle">
                         Real-time voting results for Neraxa design styles
                     </p>
+                    <div class="last-updated" id="lastUpdated">
+                        Last updated: --
+                    </div>
                 </div>
                 <button class="refresh-btn" id="refreshBtn">
                     ↻ Refresh Results
@@ -327,13 +342,13 @@
                     if (r) return JSON.parse(r);
                 } catch (_) {}
                 return {
-                    'Neo-Brutalism': 47,
-                    Glassmorphism: 89,
-                    Neumorphism: 34,
-                    Claymorphism: 56,
-                    'Cyberpunk UI': 73,
-                    'Material Design': 61,
-                    Minimalism: 45,
+                    'Neo-Brutalism': 0,
+                    Glassmorphism: 0,
+                    Neumorphism: 0,
+                    Claymorphism: 0,
+                    'Cyberpunk UI': 0,
+                    'Material Design': 0,
+                    Minimalism: 0,
                 };
             }
 
@@ -440,9 +455,37 @@
             }
 
             async function refreshAll() {
+                const refreshBtn = document.getElementById('refreshBtn');
+                const lastUpdated = document.getElementById('lastUpdated');
+
+                if (refreshBtn) {
+                    refreshBtn.classList.add('refreshing');
+                }
+
                 await renderResults();
                 await renderNotes();
+
+                if (refreshBtn) {
+                    refreshBtn.classList.remove('refreshing');
+                }
+
+                const now = new Date().toLocaleTimeString();
+                if (lastUpdated) {
+                    lastUpdated.textContent = `Last updated: ${now}`;
+                }
+
+                console.log('✓ Results refreshed at', now);
             }
+
+            // Manual refresh button
+            document
+                .getElementById('refreshBtn')
+                .addEventListener('click', () => {
+                    refreshAll();
+                });
+
+            // Auto-refresh every 5 seconds
+            setInterval(refreshAll, 5000);
 
             // Init
             refreshAll();
