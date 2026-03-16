@@ -1,0 +1,3503 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Neraxa — Design Vote</title>
+        <style>
+            /* ============================================================
+   RESET & VARIABLES
+============================================================ */
+            *,
+            *::before,
+            *::after {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+
+            :root {
+                --bg: #0d0c0b;
+                --surface: #161412;
+                --surface-2: #1c1a18;
+                --border: #272420;
+                --border-2: #333028;
+                --text: #f0ebe3;
+                --text-muted: #a29d96; /* brightened */
+                --text-dim: #635f5a; /* brightened */
+                --accent: #c9a84c;
+                --accent-light: #e8c96a;
+                --accent-glow: rgba(201, 168, 76, 0.25);
+                --accent-glow-2: rgba(201, 168, 76, 0.12);
+                --success: #4caf87;
+            }
+            html {
+                scroll-behavior: smooth;
+            }
+            body {
+                background: var(--bg);
+                color: var(--text);
+                font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+                font-size: 15px;
+                line-height: 1.6;
+                min-height: 100vh;
+                overflow-x: hidden;
+            }
+            body::before {
+                content: '';
+                position: fixed;
+                inset: 0;
+                background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+                pointer-events: none;
+                z-index: 9999;
+                opacity: 0.4;
+            }
+            body::after {
+                content: '';
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 2px;
+                background: linear-gradient(
+                    90deg,
+                    transparent,
+                    var(--accent),
+                    transparent
+                );
+                z-index: 9998;
+            }
+
+            /* ============================================================
+   LAYOUT
+============================================================ */
+            .container {
+                max-width: 1120px;
+                margin: 0 auto;
+                padding: 0 28px;
+            }
+
+            /* ============================================================
+   HEADER
+============================================================ */
+            .header {
+                padding: 60px 0 52px;
+                border-bottom: 1px solid var(--border);
+                margin-bottom: 60px;
+                animation: fadeUp 0.6s ease both;
+            }
+            .brand {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                margin-bottom: 44px;
+            }
+            .brand-logo {
+                width: 34px;
+                height: 34px;
+                background: var(--accent);
+                border-radius: 7px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 15px;
+                font-weight: 900;
+                color: #0d0c0b;
+                letter-spacing: -1px;
+                box-shadow: 0 4px 14px var(--accent-glow);
+            }
+            .brand-name {
+                font-size: 13px;
+                font-weight: 600;
+                letter-spacing: 0.18em;
+                text-transform: uppercase;
+                color: var(--text-muted);
+            }
+            .brand-divider {
+                width: 1px;
+                height: 16px;
+                background: var(--border-2);
+            }
+            .brand-badge {
+                font-size: 10px;
+                font-weight: 600;
+                letter-spacing: 0.12em;
+                text-transform: uppercase;
+                color: var(--accent);
+                padding: 2px 8px;
+                border: 1px solid var(--accent);
+                border-radius: 2px;
+            }
+            .hero-eyebrow {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                margin-bottom: 22px;
+            }
+            .eyebrow-dot {
+                width: 6px;
+                height: 6px;
+                background: var(--accent);
+                border-radius: 50%;
+                box-shadow: 0 0 8px var(--accent);
+                animation: pulse 2s infinite;
+            }
+            .eyebrow-text {
+                font-size: 11px;
+                font-weight: 600;
+                letter-spacing: 0.2em;
+                text-transform: uppercase;
+                color: var(--text-muted);
+            }
+            .hero-title {
+                font-family: Georgia, 'Times New Roman', serif;
+                font-size: clamp(38px, 6vw, 72px);
+                font-weight: 400;
+                line-height: 1.03;
+                letter-spacing: -0.025em;
+                margin-bottom: 22px;
+            }
+            .hero-title em {
+                font-style: italic;
+                color: var(--accent);
+            }
+            .hero-desc {
+                font-size: 16px;
+                color: var(--text-muted);
+                max-width: 540px;
+                line-height: 1.75;
+                margin-bottom: 36px;
+            }
+            .hero-pills {
+                display: flex;
+                gap: 10px;
+                flex-wrap: wrap;
+            }
+            .pill {
+                display: inline-flex;
+                align-items: center;
+                gap: 7px;
+                padding: 6px 14px;
+                background: var(--surface-2);
+                border: 1px solid var(--border-2);
+                border-radius: 100px;
+                font-size: 11px;
+                font-weight: 500;
+                color: var(--text-muted);
+            }
+
+            /* ============================================================
+   SECTION
+============================================================ */
+            .section-eyebrow {
+                font-size: 10px;
+                font-weight: 700;
+                letter-spacing: 0.22em;
+                text-transform: uppercase;
+                color: var(--text-dim);
+                margin-bottom: 10px;
+            }
+            .section-title {
+                font-family: Georgia, serif;
+                font-size: clamp(20px, 2.8vw, 28px);
+                font-weight: 400;
+                letter-spacing: -0.01em;
+                margin-bottom: 6px;
+            }
+            .section-sub {
+                font-size: 13px;
+                color: var(--text-muted);
+                margin-bottom: 36px;
+            }
+
+            /* ============================================================
+   VOTED NOTICE
+============================================================ */
+            .voted-notice {
+                display: none;
+                align-items: center;
+                gap: 10px;
+                padding: 13px 18px;
+                background: var(--surface-2);
+                border: 1px solid var(--border-2);
+                border-radius: 8px;
+                margin-bottom: 28px;
+                font-size: 13px;
+                color: var(--text-muted);
+                animation: fadeUp 0.4s ease both;
+            }
+            .voted-notice.visible {
+                display: flex;
+            }
+            .voted-notice-icon {
+                width: 22px;
+                height: 22px;
+                background: var(--accent);
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 11px;
+                color: #0d0c0b;
+                flex-shrink: 0;
+                font-weight: 700;
+            }
+
+            /* ============================================================
+   CARDS GRID
+============================================================ */
+            .cards-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                gap: 18px;
+                margin-bottom: 40px;
+            }
+            .design-card {
+                position: relative;
+                background: var(--surface);
+                border: 1.5px solid var(--border);
+                border-radius: 14px;
+                padding: 18px 18px 14px;
+                cursor: pointer;
+                transition:
+                    border-color 0.22s,
+                    box-shadow 0.22s,
+                    transform 0.22s;
+                user-select: none;
+                overflow: hidden;
+                animation: fadeUp 0.5s ease both;
+            }
+            .design-card:hover {
+                border-color: var(--border-2);
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+                transform: translateY(-2px);
+            }
+            .design-card.selected {
+                border-color: var(--accent);
+                box-shadow:
+                    0 0 0 1px var(--accent),
+                    0 10px 32px var(--accent-glow);
+            }
+            .design-card.selected::before {
+                content: '';
+                position: absolute;
+                inset: 0;
+                border-radius: 14px;
+                background: var(--accent-glow-2);
+                pointer-events: none;
+            }
+            .design-card.voted-locked {
+                cursor: default;
+            }
+            .design-card:nth-child(1) {
+                animation-delay: 0.04s;
+            }
+            .design-card:nth-child(2) {
+                animation-delay: 0.08s;
+            }
+            .design-card:nth-child(3) {
+                animation-delay: 0.12s;
+            }
+            .design-card:nth-child(4) {
+                animation-delay: 0.16s;
+            }
+            .design-card:nth-child(5) {
+                animation-delay: 0.2s;
+            }
+            .design-card:nth-child(6) {
+                animation-delay: 0.24s;
+            }
+            .design-card:nth-child(7) {
+                animation-delay: 0.28s;
+            }
+            .card-radio {
+                display: none;
+            }
+            .card-top {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+                margin-bottom: 6px;
+            }
+            .card-name {
+                font-size: 14px;
+                font-weight: 700;
+                color: var(--text);
+                letter-spacing: -0.01em;
+            }
+            .card-radio-ui {
+                width: 18px;
+                height: 18px;
+                border-radius: 50%;
+                border: 1.5px solid var(--border-2);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+                transition: all 0.18s;
+                margin-top: 1px;
+            }
+            .design-card.selected .card-radio-ui {
+                background: var(--accent);
+                border-color: var(--accent);
+            }
+            .card-radio-dot {
+                width: 6px;
+                height: 6px;
+                background: #0d0c0b;
+                border-radius: 50%;
+                opacity: 0;
+                transform: scale(0);
+                transition: all 0.18s;
+            }
+            .design-card.selected .card-radio-dot {
+                opacity: 1;
+                transform: scale(1);
+            }
+            .card-desc {
+                font-size: 11px;
+                color: var(--text-muted);
+                line-height: 1.55;
+                margin-bottom: 13px;
+            }
+            .mock-wrap {
+                border-radius: 9px;
+                overflow: hidden;
+                height: 152px;
+            }
+
+            /* Try-it button */
+            .card-try-btn {
+                display: inline-flex;
+                align-items: center;
+                gap: 5px;
+                margin-top: 10px;
+                padding: 5px 11px;
+                background: var(--surface-2);
+                border: 1px solid var(--border-2);
+                border-radius: 5px;
+                font-size: 10px;
+                font-weight: 600;
+                color: var(--text-muted);
+                letter-spacing: 0.06em;
+                cursor: pointer;
+                transition: all 0.18s;
+                position: relative;
+                z-index: 2;
+            }
+            .card-try-btn:hover {
+                background: var(--border);
+                color: var(--accent-light);
+                border-color: var(--accent);
+            }
+            .card-try-btn .tib {
+                font-size: 9px;
+                transition: transform 0.18s;
+            }
+            .card-try-btn:hover .tib {
+                transform: translateX(3px);
+            }
+
+            /* ============================================================
+   MOCK PREVIEWS
+============================================================ */
+
+            /* ---- NEO-BRUTALISM ---- */
+            .mock-neo {
+                background: #ffe033;
+                padding: 9px;
+                height: 100%;
+                font-family: 'Arial Black', 'Arial Bold', Arial, sans-serif;
+            }
+            .mock-neo .nb-bal {
+                background: #fff;
+                border: 2.5px solid #000;
+                padding: 5px 7px;
+                margin-bottom: 5px;
+            }
+            .mock-neo .nb-lbl {
+                font-size: 6px;
+                font-weight: 900;
+                text-transform: uppercase;
+                color: #000;
+                display: block;
+            }
+            .mock-neo .nb-amt {
+                font-size: 17px;
+                font-weight: 900;
+                color: #000;
+                line-height: 1;
+            }
+            .mock-neo .nb-row {
+                display: flex;
+                gap: 4px;
+                margin-bottom: 5px;
+            }
+            .mock-neo .nb-stat {
+                flex: 1;
+                border: 2px solid #000;
+                padding: 3px 5px;
+            }
+            .mock-neo .nb-stat.inc {
+                background: #00e676;
+            }
+            .mock-neo .nb-stat.exp {
+                background: #ff1744;
+            }
+            .mock-neo .nb-slbl {
+                font-size: 5px;
+                font-weight: 900;
+                text-transform: uppercase;
+                display: block;
+                color: #000;
+            }
+            .mock-neo .nb-sval {
+                font-size: 9px;
+                font-weight: 900;
+                color: #000;
+            }
+            .mock-neo .nb-txs {
+                border: 2px solid #000;
+                background: #fff;
+            }
+            .mock-neo .nb-tx {
+                border-bottom: 1.5px solid #000;
+                padding: 2px 5px;
+                font-size: 6px;
+                font-weight: 900;
+                display: flex;
+                justify-content: space-between;
+                color: #000;
+            }
+            .mock-neo .nb-tx:last-child {
+                border-bottom: none;
+            }
+
+            /* ---- GLASSMORPHISM ---- */
+            .mock-glass {
+                background: linear-gradient(
+                    130deg,
+                    #4f46e5 0%,
+                    #7c3aed 45%,
+                    #db2777 100%
+                );
+                padding: 8px;
+                height: 100%;
+                position: relative;
+                overflow: hidden;
+            }
+            .mock-glass .gb1,
+            .mock-glass .gb2 {
+                position: absolute;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.12);
+            }
+            .mock-glass .gb1 {
+                width: 70px;
+                height: 70px;
+                top: -20px;
+                right: -15px;
+            }
+            .mock-glass .gb2 {
+                width: 45px;
+                height: 45px;
+                bottom: 8px;
+                left: -8px;
+            }
+            .mock-glass .gl-panel {
+                background: rgba(255, 255, 255, 0.15);
+                border: 1px solid rgba(255, 255, 255, 0.28);
+                border-radius: 8px;
+                padding: 6px 8px;
+                margin-bottom: 5px;
+                position: relative;
+                z-index: 1;
+            }
+            .mock-glass .gl-lbl {
+                font-size: 6px;
+                color: rgba(255, 255, 255, 0.7);
+                text-transform: uppercase;
+                letter-spacing: 0.08em;
+                display: block;
+            }
+            .mock-glass .gl-amt {
+                font-size: 16px;
+                font-weight: 700;
+                color: #fff;
+                line-height: 1.1;
+            }
+            .mock-glass .gl-row {
+                display: flex;
+                gap: 4px;
+                margin-bottom: 5px;
+                position: relative;
+                z-index: 1;
+            }
+            .mock-glass .gl-stat {
+                flex: 1;
+                background: rgba(255, 255, 255, 0.11);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                border-radius: 6px;
+                padding: 4px 5px;
+            }
+            .mock-glass .gl-slbl {
+                font-size: 5px;
+                color: rgba(255, 255, 255, 0.65);
+                display: block;
+            }
+            .mock-glass .gl-sval {
+                font-size: 8px;
+                font-weight: 600;
+                color: #fff;
+            }
+            .mock-glass .gl-txs {
+                background: rgba(255, 255, 255, 0.1);
+                border: 1px solid rgba(255, 255, 255, 0.18);
+                border-radius: 6px;
+                overflow: hidden;
+                position: relative;
+                z-index: 1;
+            }
+            .mock-glass .gl-tx {
+                padding: 2px 6px;
+                font-size: 6px;
+                color: rgba(255, 255, 255, 0.85);
+                display: flex;
+                justify-content: space-between;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+            }
+            .mock-glass .gl-tx:last-child {
+                border-bottom: none;
+            }
+
+            /* ---- NEUMORPHISM ---- */
+            .mock-neu {
+                background: #dfe6ec;
+                padding: 9px;
+                height: 100%;
+            }
+            .mock-neu .nm-panel {
+                background: #dfe6ec;
+                box-shadow:
+                    5px 5px 9px #bec4ca,
+                    -5px -5px 9px #ffffff;
+                border-radius: 9px;
+                padding: 6px 8px;
+                margin-bottom: 6px;
+            }
+            .mock-neu .nm-lbl {
+                font-size: 6px;
+                color: #9eaab4;
+                text-transform: uppercase;
+                letter-spacing: 0.08em;
+                display: block;
+            }
+            .mock-neu .nm-amt {
+                font-size: 16px;
+                font-weight: 500;
+                color: #5a6a75;
+                line-height: 1.1;
+            }
+            .mock-neu .nm-row {
+                display: flex;
+                gap: 5px;
+                margin-bottom: 6px;
+            }
+            .mock-neu .nm-stat {
+                flex: 1;
+                background: #dfe6ec;
+                box-shadow:
+                    3px 3px 6px #bec4ca,
+                    -3px -3px 6px #ffffff;
+                border-radius: 7px;
+                padding: 4px 5px;
+            }
+            .mock-neu .nm-slbl {
+                font-size: 5px;
+                color: #9eaab4;
+                display: block;
+            }
+            .mock-neu .nm-sval {
+                font-size: 8px;
+                font-weight: 500;
+            }
+            .mock-neu .nm-sval.inc {
+                color: #4e9c78;
+            }
+            .mock-neu .nm-sval.exp {
+                color: #b07070;
+            }
+            .mock-neu .nm-txs {
+                background: #dfe6ec;
+                box-shadow:
+                    inset 3px 3px 6px #bec4ca,
+                    inset -3px -3px 6px #ffffff;
+                border-radius: 7px;
+                padding: 2px 0;
+            }
+            .mock-neu .nm-tx {
+                padding: 2px 7px;
+                font-size: 6px;
+                color: #7a8a95;
+                display: flex;
+                justify-content: space-between;
+            }
+
+            /* ---- CLAYMORPHISM (fixed) ---- */
+            .mock-clay {
+                background: #f0eaff;
+                padding: 9px;
+                height: 100%;
+            }
+            .mock-clay .cl-hero {
+                background: #c9a4ff;
+                border-radius: 18px;
+                padding: 7px 10px;
+                margin-bottom: 6px;
+                box-shadow:
+                    0 7px 0 0 #8b4fcc,
+                    0 10px 22px rgba(100, 40, 200, 0.2);
+            }
+            .mock-clay .cl-lbl {
+                font-size: 6px;
+                color: #6b3fa0;
+                font-weight: 700;
+                text-transform: uppercase;
+                display: block;
+                letter-spacing: 0.06em;
+            }
+            .mock-clay .cl-amt {
+                font-size: 18px;
+                font-weight: 800;
+                color: #3a1a6a;
+            }
+            .mock-clay .cl-row {
+                display: flex;
+                gap: 5px;
+                margin-bottom: 6px;
+            }
+            .mock-clay .cl-stat {
+                flex: 1;
+                border-radius: 14px;
+                padding: 5px 6px;
+            }
+            .mock-clay .cl-stat.inc {
+                background: #a8f4c8;
+                box-shadow: 0 5px 0 0 #4bad78;
+            }
+            .mock-clay .cl-stat.exp {
+                background: #ffb3c6;
+                box-shadow: 0 5px 0 0 #d96080;
+            }
+            .mock-clay .cl-slbl {
+                font-size: 5px;
+                color: rgba(0, 0, 0, 0.5);
+                font-weight: 700;
+                display: block;
+            }
+            .mock-clay .cl-sval {
+                font-size: 9px;
+                font-weight: 800;
+                color: #222;
+            }
+            .mock-clay .cl-txs {
+                background: #fff;
+                border-radius: 14px;
+                box-shadow: 0 5px 0 0 #c9a4ff;
+                padding: 1px 0;
+            }
+            .mock-clay .cl-tx {
+                padding: 2.5px 8px;
+                font-size: 6px;
+                color: #555;
+                display: flex;
+                justify-content: space-between;
+                font-weight: 700;
+                border-bottom: 1px solid #f5f0ff;
+            }
+            .mock-clay .cl-tx:last-child {
+                border-bottom: none;
+            }
+
+            /* ---- CYBERPUNK UI ---- */
+            .mock-cyber {
+                background: #04000f;
+                padding: 8px;
+                height: 100%;
+                position: relative;
+                overflow: hidden;
+            }
+            .mock-cyber .cy-grid {
+                position: absolute;
+                inset: 0;
+                background-image:
+                    linear-gradient(
+                        rgba(0, 255, 245, 0.045) 1px,
+                        transparent 1px
+                    ),
+                    linear-gradient(
+                        90deg,
+                        rgba(0, 255, 245, 0.045) 1px,
+                        transparent 1px
+                    );
+                background-size: 14px 14px;
+            }
+            .mock-cyber .cy-scan {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 2px;
+                background: linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(0, 255, 245, 0.5),
+                    transparent
+                );
+                animation: scan 2.5s linear infinite;
+            }
+            .mock-cyber .cy-panel {
+                border: 1px solid rgba(0, 255, 245, 0.6);
+                background: rgba(0, 255, 245, 0.04);
+                padding: 5px 7px;
+                margin-bottom: 4px;
+                position: relative;
+                z-index: 1;
+            }
+            .mock-cyber .cy-panel::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 7px;
+                height: 7px;
+                border-top: 2px solid #00fff5;
+                border-left: 2px solid #00fff5;
+            }
+            .mock-cyber .cy-panel::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                right: 0;
+                width: 7px;
+                height: 7px;
+                border-bottom: 2px solid #00fff5;
+                border-right: 2px solid #00fff5;
+            }
+            .mock-cyber .cy-lbl {
+                font-size: 5px;
+                color: rgba(0, 255, 245, 0.65);
+                text-transform: uppercase;
+                letter-spacing: 0.18em;
+                display: block;
+                font-family: 'Courier New', monospace;
+            }
+            .mock-cyber .cy-amt {
+                font-size: 14px;
+                font-weight: 700;
+                color: #00fff5;
+                line-height: 1.1;
+                text-shadow: 0 0 10px rgba(0, 255, 245, 0.85);
+                font-family: 'Courier New', monospace;
+            }
+            .mock-cyber .cy-row {
+                display: flex;
+                gap: 4px;
+                margin-bottom: 4px;
+                position: relative;
+                z-index: 1;
+            }
+            .mock-cyber .cy-stat {
+                flex: 1;
+                border: 1px solid;
+                padding: 3px 4px;
+            }
+            .mock-cyber .cy-stat.inc {
+                border-color: rgba(0, 255, 136, 0.6);
+                background: rgba(0, 255, 136, 0.05);
+            }
+            .mock-cyber .cy-stat.exp {
+                border-color: rgba(255, 0, 100, 0.6);
+                background: rgba(255, 0, 100, 0.05);
+            }
+            .mock-cyber .cy-slbl {
+                font-size: 4px;
+                letter-spacing: 0.1em;
+                display: block;
+                font-family: monospace;
+                text-transform: uppercase;
+            }
+            .mock-cyber .cy-stat.inc .cy-slbl {
+                color: rgba(0, 255, 136, 0.7);
+            }
+            .mock-cyber .cy-stat.exp .cy-slbl {
+                color: rgba(255, 0, 100, 0.7);
+            }
+            .mock-cyber .cy-sval {
+                font-size: 7px;
+                font-weight: 700;
+                font-family: monospace;
+            }
+            .mock-cyber .cy-stat.inc .cy-sval {
+                color: #00ff88;
+                text-shadow: 0 0 5px #00ff88;
+            }
+            .mock-cyber .cy-stat.exp .cy-sval {
+                color: #ff0066;
+                text-shadow: 0 0 5px #ff0066;
+            }
+            .mock-cyber .cy-txs {
+                border: 1px solid rgba(0, 255, 245, 0.25);
+                background: rgba(0, 0, 0, 0.5);
+                position: relative;
+                z-index: 1;
+            }
+            .mock-cyber .cy-tx {
+                padding: 2px 5px;
+                font-size: 5px;
+                font-family: monospace;
+                color: rgba(0, 255, 245, 0.65);
+                display: flex;
+                justify-content: space-between;
+                border-bottom: 1px solid rgba(0, 255, 245, 0.07);
+            }
+            .mock-cyber .cy-tx:last-child {
+                border-bottom: none;
+            }
+
+            /* ---- MATERIAL DESIGN 3 (fixed) ---- */
+            .mock-md {
+                background: #fef7ff;
+                padding: 9px;
+                height: 100%;
+            }
+            .mock-md .md-hero {
+                background: #6750a4;
+                border-radius: 24px;
+                padding: 8px 10px;
+                margin-bottom: 6px;
+                box-shadow:
+                    0 2px 6px 2px rgba(0, 0, 0, 0.14),
+                    0 1px 2px rgba(0, 0, 0, 0.2);
+            }
+            .mock-md .md-hlbl {
+                font-size: 6px;
+                color: rgba(255, 255, 255, 0.72);
+                text-transform: uppercase;
+                letter-spacing: 0.06em;
+                display: block;
+            }
+            .mock-md .md-hamt {
+                font-size: 18px;
+                font-weight: 400;
+                color: #fff;
+                line-height: 1.1;
+            }
+            .mock-md .md-row {
+                display: flex;
+                gap: 5px;
+                margin-bottom: 6px;
+            }
+            .mock-md .md-stat {
+                flex: 1;
+                border-radius: 16px;
+                padding: 5px 6px;
+                box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+            }
+            .mock-md .md-stat.inc {
+                background: #c8f0d4;
+                color: #0a3818;
+            }
+            .mock-md .md-stat.exp {
+                background: #ffd9e3;
+                color: #410002;
+            }
+            .mock-md .md-slbl {
+                font-size: 5px;
+                display: block;
+                opacity: 0.7;
+            }
+            .mock-md .md-sval {
+                font-size: 8px;
+                font-weight: 500;
+            }
+            .mock-md .md-txs {
+                background: #f7f2fa;
+                border-radius: 16px;
+                overflow: hidden;
+                box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            }
+            .mock-md .md-tx {
+                padding: 3px 8px;
+                font-size: 6px;
+                color: #49454f;
+                display: flex;
+                justify-content: space-between;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+            }
+            .mock-md .md-tx:last-child {
+                border-bottom: none;
+            }
+
+            /* ---- MINIMALISM ---- */
+            .mock-min {
+                background: #fff;
+                padding: 11px 13px;
+                height: 100%;
+            }
+            .mock-min .mn-lbl {
+                font-size: 5px;
+                color: #ccc;
+                text-transform: uppercase;
+                letter-spacing: 0.18em;
+                display: block;
+                margin-bottom: 1px;
+            }
+            .mock-min .mn-amt {
+                font-size: 22px;
+                font-weight: 200;
+                color: #111;
+                line-height: 1;
+                margin-bottom: 10px;
+                letter-spacing: -0.03em;
+            }
+            .mock-min .mn-hr {
+                height: 1px;
+                background: #ebebeb;
+                margin-bottom: 8px;
+            }
+            .mock-min .mn-row {
+                display: flex;
+                gap: 18px;
+                margin-bottom: 8px;
+            }
+            .mock-min .mn-slbl {
+                font-size: 5px;
+                color: #c0c0c0;
+                display: block;
+                text-transform: uppercase;
+                letter-spacing: 0.14em;
+            }
+            .mock-min .mn-sval {
+                font-size: 10px;
+                font-weight: 300;
+                color: #333;
+            }
+            .mock-min .mn-sval.inc {
+                color: #27ae60;
+            }
+            .mock-min .mn-sval.exp {
+                color: #e74c3c;
+            }
+            .mock-min .mn-tx {
+                padding: 2px 0;
+                font-size: 6px;
+                color: #aaa;
+                display: flex;
+                justify-content: space-between;
+                border-bottom: 1px solid #f7f7f7;
+            }
+            .mock-min .mn-tx:last-child {
+                border-bottom: none;
+            }
+
+            /* ============================================================
+   SUBMIT
+============================================================ */
+            .submit-wrap {
+                display: flex;
+                align-items: center;
+                gap: 18px;
+                margin-bottom: 72px;
+                flex-wrap: wrap;
+            }
+            .btn-vote {
+                background: var(--accent);
+                color: #0d0c0b;
+                border: none;
+                padding: 14px 40px;
+                font-size: 12px;
+                font-weight: 800;
+                letter-spacing: 0.12em;
+                text-transform: uppercase;
+                border-radius: 7px;
+                cursor: pointer;
+                transition:
+                    background 0.2s,
+                    transform 0.15s,
+                    box-shadow 0.2s,
+                    opacity 0.2s;
+                opacity: 0.38;
+                pointer-events: none;
+            }
+            .btn-vote.active {
+                opacity: 1;
+                pointer-events: auto;
+            }
+            .btn-vote.active:hover {
+                background: var(--accent-light);
+                transform: translateY(-2px);
+                box-shadow: 0 8px 24px var(--accent-glow);
+            }
+            .btn-vote.active:active {
+                transform: translateY(0);
+            }
+            .submit-note {
+                font-size: 12px;
+                color: var(--text-dim);
+            }
+
+            /* ============================================================
+   CONFIRMATION
+============================================================ */
+            .confirmation {
+                display: none;
+                background: var(--surface-2);
+                border: 1px solid rgba(76, 175, 135, 0.35);
+                border-radius: 12px;
+                padding: 24px 28px;
+                margin-bottom: 52px;
+                animation: fadeUp 0.4s ease;
+            }
+            .confirmation.visible {
+                display: block;
+            }
+            .conf-check {
+                width: 38px;
+                height: 38px;
+                background: var(--success);
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 17px;
+                margin-bottom: 14px;
+                color: #fff;
+            }
+            .conf-title {
+                font-family: Georgia, serif;
+                font-size: 19px;
+                font-weight: 400;
+                margin-bottom: 5px;
+            }
+            .conf-sub {
+                font-size: 13px;
+                color: var(--text-muted);
+            }
+
+            /* ============================================================
+   RESULTS
+============================================================ */
+            .results-section {
+                display: none;
+                margin-bottom: 80px;
+                animation: fadeUp 0.5s ease;
+            }
+            .results-section.visible {
+                display: block;
+            }
+            .results-list {
+                display: flex;
+                flex-direction: column;
+                gap: 9px;
+            }
+            .result-row {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                padding: 12px 16px;
+                background: var(--surface);
+                border: 1px solid var(--border);
+                border-radius: 9px;
+                transition: border-color 0.2s;
+            }
+            .result-row.top-3 {
+                border-color: rgba(201, 168, 76, 0.4);
+                background: var(--surface-2);
+            }
+            .result-rank {
+                font-size: 10px;
+                font-weight: 700;
+                width: 22px;
+                text-align: center;
+                flex-shrink: 0;
+            }
+            .result-row.top-3 .result-rank {
+                color: var(--accent);
+            }
+            .result-row:not(.top-3) .result-rank {
+                color: var(--text-dim);
+            }
+            .result-medal {
+                font-size: 15px;
+                width: 22px;
+                text-align: center;
+                flex-shrink: 0;
+            }
+            .result-name {
+                font-size: 13px;
+                font-weight: 600;
+                flex: 1;
+                min-width: 0;
+            }
+            .result-voted-you {
+                font-size: 9px;
+                font-weight: 600;
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                color: var(--accent);
+                background: var(--accent-glow-2);
+                border: 1px solid rgba(201, 168, 76, 0.3);
+                padding: 2px 8px;
+                border-radius: 3px;
+                flex-shrink: 0;
+            }
+            .result-bar-track {
+                flex: 2;
+                height: 5px;
+                background: var(--border);
+                border-radius: 3px;
+                overflow: hidden;
+                min-width: 60px;
+            }
+            .result-bar-fill {
+                height: 100%;
+                border-radius: 3px;
+                background: var(--border-2);
+                width: 0;
+                transition: width 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            .result-row.top-3 .result-bar-fill {
+                background: var(--accent);
+            }
+            .result-row.rank-1 .result-bar-fill {
+                background: var(--accent-light);
+                box-shadow: 0 0 8px var(--accent-glow);
+            }
+            .result-count {
+                font-size: 12px;
+                font-weight: 600;
+                width: 36px;
+                text-align: right;
+                flex-shrink: 0;
+            }
+            .result-row.top-3 .result-count {
+                color: var(--accent);
+            }
+            .result-row:not(.top-3) .result-count {
+                color: var(--text-muted);
+            }
+
+            /* ============================================================
+   MODAL OVERLAY
+============================================================ */
+            .modal-overlay {
+                position: fixed;
+                inset: 0;
+                background: rgba(0, 0, 0, 0.75);
+                z-index: 1000;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 20px;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.25s;
+            }
+            .modal-overlay.open {
+                opacity: 1;
+                pointer-events: auto;
+            }
+            .modal-box {
+                background: var(--surface);
+                border: 1px solid var(--border-2);
+                border-radius: 18px;
+                width: 100%;
+                max-width: 560px;
+                max-height: 90vh;
+                overflow-y: auto;
+                transform: translateY(22px);
+                transition: transform 0.3s cubic-bezier(0.34, 1.4, 0.64, 1);
+                box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+            }
+            .modal-overlay.open .modal-box {
+                transform: translateY(0);
+            }
+            .modal-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+                padding: 22px 22px 0;
+            }
+            .modal-eyebrow {
+                font-size: 10px;
+                font-weight: 600;
+                letter-spacing: 0.2em;
+                text-transform: uppercase;
+                color: var(--text-dim);
+                margin-bottom: 4px;
+            }
+            .modal-title {
+                font-family: Georgia, serif;
+                font-size: 22px;
+                font-weight: 400;
+                color: var(--text);
+            }
+            .modal-close {
+                width: 32px;
+                height: 32px;
+                background: var(--surface-2);
+                border: 1px solid var(--border-2);
+                border-radius: 50%;
+                color: var(--text-muted);
+                font-size: 14px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+                transition: all 0.18s;
+                margin-top: 2px;
+            }
+            .modal-close:hover {
+                background: var(--border);
+                color: var(--text);
+            }
+            .modal-desc {
+                font-size: 12px;
+                color: var(--text-muted);
+                padding: 8px 22px 16px;
+                line-height: 1.6;
+            }
+            .modal-demo {
+                margin: 0 14px 20px;
+                border-radius: 12px;
+                overflow: hidden;
+                min-height: 220px;
+            }
+
+            /* ============================================================
+   DEMO STYLES — NEO BRUTALISM
+============================================================ */
+            .demo-neo {
+                background: #ffe033;
+                padding: 22px;
+                font-family: 'Arial Black', 'Arial Bold', Arial, sans-serif;
+                min-height: 220px;
+            }
+            .demo-neo-title {
+                font-size: 15px;
+                font-weight: 900;
+                color: #000;
+                text-transform: uppercase;
+                border-bottom: 3px solid #000;
+                padding-bottom: 8px;
+                margin-bottom: 16px;
+                letter-spacing: 0.04em;
+            }
+            .demo-neo-btns {
+                display: flex;
+                gap: 10px;
+                flex-wrap: wrap;
+                margin-bottom: 16px;
+            }
+            .nb-demo-btn {
+                background: #fff;
+                border: 3px solid #000;
+                padding: 10px 18px;
+                font-family: 'Arial Black', Arial, sans-serif;
+                font-size: 12px;
+                font-weight: 900;
+                text-transform: uppercase;
+                cursor: pointer;
+                box-shadow: 4px 4px 0 #000;
+                transition:
+                    transform 0.08s,
+                    box-shadow 0.08s;
+                position: relative;
+                color: #000;
+            }
+            .nb-demo-btn:hover {
+                background: #ffe033;
+                box-shadow: 6px 6px 0 #000;
+                transform: translate(-1px, -1px);
+            }
+            .nb-demo-btn:active,
+            .nb-demo-btn.pressed {
+                box-shadow: 0 0 0 #000;
+                transform: translate(4px, 4px);
+            }
+            .nb-demo-btn.accent {
+                background: #ff1744;
+                color: #fff;
+            }
+            .nb-demo-btn.accent:hover {
+                background: #ff4569;
+                box-shadow: 6px 6px 0 #000;
+            }
+            .demo-neo-checks {
+                display: flex;
+                gap: 14px;
+                flex-wrap: wrap;
+            }
+            .nb-check-wrap {
+                display: inline-flex;
+                align-items: center;
+                gap: 7px;
+                cursor: pointer;
+                -webkit-user-select: none;
+                user-select: none;
+            }
+            .nb-check-wrap input {
+                display: none;
+            }
+            .nb-check-box {
+                width: 20px;
+                height: 20px;
+                border: 3px solid #000;
+                background: #fff;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 14px;
+                font-weight: 900;
+                color: #000;
+                transition: background 0.1s;
+                flex-shrink: 0;
+            }
+            .nb-check-wrap input:checked + .nb-check-box {
+                background: #00e676;
+            }
+            .nb-check-wrap input:checked + .nb-check-box::after {
+                content: '✗';
+            }
+            .nb-check-lbl {
+                font-size: 11px;
+                font-weight: 900;
+                color: #000;
+                text-transform: uppercase;
+                letter-spacing: 0.06em;
+            }
+
+            /* ============================================================
+   DEMO STYLES — GLASSMORPHISM
+============================================================ */
+            .demo-glass {
+                background: linear-gradient(
+                    135deg,
+                    #3730a3 0%,
+                    #6d28d9 50%,
+                    #be185d 100%
+                );
+                padding: 22px;
+                min-height: 220px;
+                position: relative;
+                overflow: hidden;
+            }
+            .demo-glass-bg-orb1 {
+                position: absolute;
+                width: 140px;
+                height: 140px;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.09);
+                top: -50px;
+                right: -30px;
+                pointer-events: none;
+            }
+            .demo-glass-bg-orb2 {
+                position: absolute;
+                width: 90px;
+                height: 90px;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.08);
+                bottom: -30px;
+                left: -20px;
+                pointer-events: none;
+            }
+            .demo-glass-bg-orb3 {
+                position: absolute;
+                width: 60px;
+                height: 60px;
+                border-radius: 50%;
+                background: rgba(255, 192, 203, 0.12);
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                pointer-events: none;
+            }
+            .demo-glass-cards {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 10px;
+                margin-bottom: 14px;
+            }
+            .gl-demo-card {
+                background: rgba(255, 255, 255, 0.13);
+                border: 1px solid rgba(255, 255, 255, 0.26);
+                border-radius: 12px;
+                padding: 12px 10px;
+                cursor: default;
+                transition:
+                    transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
+                    box-shadow 0.35s,
+                    background 0.35s;
+                transform-style: preserve-3d;
+                position: relative;
+                z-index: 1;
+            }
+            .gl-demo-card:hover {
+                background: rgba(255, 255, 255, 0.22);
+                box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+            }
+            .gl-demo-card .gl-clbl {
+                font-size: 9px;
+                color: rgba(255, 255, 255, 0.65);
+                display: block;
+                margin-bottom: 3px;
+                text-transform: uppercase;
+                letter-spacing: 0.08em;
+            }
+            .gl-demo-card .gl-cval {
+                font-size: 14px;
+                font-weight: 700;
+                color: #fff;
+            }
+            .gl-demo-card .gl-csub {
+                font-size: 8px;
+                color: rgba(255, 255, 255, 0.5);
+                margin-top: 2px;
+            }
+            .gl-demo-btn {
+                display: block;
+                width: 100%;
+                background: rgba(255, 255, 255, 0.18);
+                border: 1px solid rgba(255, 255, 255, 0.35);
+                border-radius: 10px;
+                padding: 11px;
+                color: #fff;
+                font-size: 12px;
+                font-weight: 600;
+                cursor: pointer;
+                position: relative;
+                overflow: hidden;
+                transition: background 0.25s;
+                z-index: 1;
+                text-transform: uppercase;
+                letter-spacing: 0.08em;
+            }
+            .gl-demo-btn:hover {
+                background: rgba(255, 255, 255, 0.28);
+            }
+            .gl-demo-btn::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 60%;
+                height: 100%;
+                background: linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.22),
+                    transparent
+                );
+                transition: left 0.5s;
+                pointer-events: none;
+            }
+            .gl-demo-btn:hover::after {
+                left: 160%;
+            }
+
+            /* ============================================================
+   DEMO STYLES — NEUMORPHISM
+============================================================ */
+            .demo-neu {
+                background: #dfe6ec;
+                padding: 22px;
+                min-height: 220px;
+            }
+            .demo-neu-row {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 18px;
+            }
+            .demo-neu-label {
+                font-size: 13px;
+                color: #5a6a75;
+                font-weight: 500;
+            }
+            .nm-toggle {
+                width: 52px;
+                height: 28px;
+                border-radius: 14px;
+                background: #dfe6ec;
+                box-shadow:
+                    inset 3px 3px 6px #bec4ca,
+                    inset -3px -3px 6px #ffffff;
+                cursor: pointer;
+                position: relative;
+                transition: all 0.3s;
+            }
+            .nm-toggle.on {
+                box-shadow:
+                    inset 3px 3px 6px #a8b4bc,
+                    inset -3px -3px 6px #f8ffff;
+            }
+            .nm-thumb {
+                position: absolute;
+                top: 4px;
+                left: 4px;
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+                background: #dfe6ec;
+                box-shadow:
+                    3px 3px 6px #bec4ca,
+                    -3px -3px 6px #ffffff;
+                transition: left 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            }
+            .nm-toggle.on .nm-thumb {
+                left: 28px;
+                background: #4e9c78;
+                box-shadow: 2px 2px 4px rgba(40, 120, 80, 0.3);
+            }
+            .nm-pay-btn {
+                width: 100%;
+                padding: 14px;
+                background: #dfe6ec;
+                border: none;
+                border-radius: 12px;
+                font-size: 13px;
+                font-weight: 600;
+                color: #5a6a75;
+                cursor: pointer;
+                box-shadow:
+                    5px 5px 10px #bec4ca,
+                    -5px -5px 10px #ffffff;
+                transition:
+                    box-shadow 0.12s,
+                    transform 0.12s;
+                letter-spacing: 0.04em;
+                margin-bottom: 16px;
+            }
+            .nm-pay-btn:hover {
+                box-shadow:
+                    7px 7px 14px #bec4ca,
+                    -7px -7px 14px #ffffff;
+            }
+            .nm-pay-btn:active {
+                box-shadow:
+                    inset 4px 4px 8px #bec4ca,
+                    inset -4px -4px 8px #ffffff;
+                transform: scale(0.98);
+            }
+            .nm-slider-wrap {
+                margin-top: 4px;
+            }
+            .nm-slider-lbl {
+                font-size: 11px;
+                color: #9eaab4;
+                margin-bottom: 8px;
+                display: block;
+            }
+            .nm-slider-track {
+                height: 8px;
+                background: #dfe6ec;
+                border-radius: 4px;
+                box-shadow:
+                    inset 2px 2px 4px #bec4ca,
+                    inset -2px -2px 4px #ffffff;
+                position: relative;
+                cursor: pointer;
+            }
+            .nm-slider-fill {
+                height: 100%;
+                border-radius: 4px;
+                background: linear-gradient(90deg, #4e9c78, #68c496);
+                width: 60%;
+                pointer-events: none;
+            }
+            .nm-slider-thumb {
+                position: absolute;
+                top: 50%;
+                width: 18px;
+                height: 18px;
+                border-radius: 50%;
+                background: #dfe6ec;
+                box-shadow:
+                    3px 3px 6px #bec4ca,
+                    -3px -3px 6px #ffffff;
+                transform: translate(-50%, -50%);
+                left: 60%;
+                cursor: grab;
+                transition: box-shadow 0.12s;
+            }
+            .nm-slider-thumb:active {
+                cursor: grabbing;
+                box-shadow:
+                    inset 2px 2px 4px #bec4ca,
+                    inset -2px -2px 4px #ffffff;
+            }
+
+            /* ============================================================
+   DEMO STYLES — CLAYMORPHISM
+============================================================ */
+            .demo-clay {
+                background: #f0eaff;
+                padding: 22px;
+                min-height: 220px;
+            }
+            .demo-clay-title {
+                font-size: 13px;
+                font-weight: 800;
+                color: #5a2d90;
+                margin-bottom: 14px;
+                letter-spacing: -0.01em;
+            }
+            .demo-clay-btns {
+                display: flex;
+                gap: 10px;
+                flex-wrap: wrap;
+                margin-bottom: 14px;
+            }
+            .cl-demo-btn {
+                border: none;
+                border-radius: 22px;
+                padding: 11px 22px;
+                font-size: 13px;
+                font-weight: 800;
+                cursor: pointer;
+                transition:
+                    transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+                    box-shadow 0.15s;
+                -webkit-user-select: none;
+                user-select: none;
+            }
+            .cl-demo-btn.purple {
+                background: #c9a4ff;
+                color: #3a1a6a;
+                box-shadow:
+                    0 8px 0 #8b4fcc,
+                    0 10px 22px rgba(100, 40, 200, 0.22);
+            }
+            .cl-demo-btn.green {
+                background: #a8f4c8;
+                color: #0a3818;
+                box-shadow:
+                    0 8px 0 #4bad78,
+                    0 10px 22px rgba(60, 180, 100, 0.2);
+            }
+            .cl-demo-btn.pink {
+                background: #ffb3c6;
+                color: #5a1030;
+                box-shadow:
+                    0 8px 0 #d96080,
+                    0 10px 22px rgba(200, 60, 100, 0.2);
+            }
+            .cl-demo-btn:hover {
+                transform: translateY(-4px) scale(1.04);
+            }
+            .cl-demo-btn:active {
+                transform: translateY(6px) scaleX(1.08) scaleY(0.9);
+                box-shadow:
+                    0 2px 0 #8b4fcc,
+                    0 4px 8px rgba(100, 40, 200, 0.15);
+            }
+            .cl-demo-btn.green:active {
+                box-shadow: 0 2px 0 #4bad78;
+            }
+            .cl-demo-btn.pink:active {
+                box-shadow: 0 2px 0 #d96080;
+            }
+            .demo-clay-chips {
+                display: flex;
+                gap: 8px;
+                flex-wrap: wrap;
+                margin-bottom: 14px;
+            }
+            .cl-chip {
+                border-radius: 22px;
+                padding: 7px 14px;
+                font-size: 12px;
+                font-weight: 800;
+                cursor: pointer;
+                transition:
+                    transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+                    box-shadow 0.12s;
+            }
+            .cl-chip.food {
+                background: #ffe08a;
+                color: #7a4800;
+                box-shadow: 0 5px 0 #c9942a;
+            }
+            .cl-chip.travel {
+                background: #a8dcff;
+                color: #003a6a;
+                box-shadow: 0 5px 0 #4a8cbf;
+            }
+            .cl-chip.health {
+                background: #d0f5a8;
+                color: #1a4a00;
+                box-shadow: 0 5px 0 #5aaa2a;
+            }
+            .cl-chip:hover {
+                transform: translateY(-3px);
+            }
+            .cl-chip:active {
+                transform: translateY(4px);
+                box-shadow: 0 1px 0 #c9942a;
+            }
+            .cl-cta-btn {
+                width: 100%;
+                border: none;
+                border-radius: 22px;
+                padding: 14px;
+                background: #6750f0;
+                color: #fff;
+                font-size: 14px;
+                font-weight: 800;
+                cursor: pointer;
+                box-shadow:
+                    0 10px 0 #3a25b0,
+                    0 14px 28px rgba(80, 40, 200, 0.3);
+                transition:
+                    transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+                    box-shadow 0.15s;
+            }
+            .cl-cta-btn:hover {
+                transform: translateY(-5px) scale(1.02);
+            }
+            .cl-cta-btn:active {
+                transform: translateY(8px);
+                box-shadow:
+                    0 2px 0 #3a25b0,
+                    0 4px 10px rgba(80, 40, 200, 0.2);
+            }
+
+            /* ============================================================
+   DEMO STYLES — CYBERPUNK
+============================================================ */
+            .demo-cyber {
+                background: #04000f;
+                padding: 22px;
+                min-height: 220px;
+                position: relative;
+                overflow: hidden;
+            }
+            .demo-cyber-grid {
+                position: absolute;
+                inset: 0;
+                background-image:
+                    linear-gradient(
+                        rgba(0, 255, 245, 0.035) 1px,
+                        transparent 1px
+                    ),
+                    linear-gradient(
+                        90deg,
+                        rgba(0, 255, 245, 0.035) 1px,
+                        transparent 1px
+                    );
+                background-size: 20px 20px;
+                pointer-events: none;
+            }
+            .demo-cyber-scan {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 2px;
+                background: linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(0, 255, 245, 0.45),
+                    transparent
+                );
+                animation: scan 3s linear infinite;
+                pointer-events: none;
+            }
+            .cyber-balance {
+                border: 1px solid rgba(0, 255, 245, 0.5);
+                padding: 12px 14px;
+                margin-bottom: 14px;
+                position: relative;
+                z-index: 1;
+                cursor: default;
+            }
+            .cyber-balance::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 10px;
+                height: 10px;
+                border-top: 2px solid #00fff5;
+                border-left: 2px solid #00fff5;
+            }
+            .cyber-balance::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                right: 0;
+                width: 10px;
+                height: 10px;
+                border-bottom: 2px solid #00fff5;
+                border-right: 2px solid #00fff5;
+            }
+            .cyber-bal-lbl {
+                font-size: 9px;
+                color: rgba(0, 255, 245, 0.6);
+                font-family: 'Courier New', monospace;
+                text-transform: uppercase;
+                letter-spacing: 0.2em;
+                display: block;
+                margin-bottom: 4px;
+            }
+            .cyber-bal-amt {
+                font-size: 24px;
+                font-weight: 700;
+                color: #00fff5;
+                font-family: 'Courier New', monospace;
+                text-shadow: 0 0 12px rgba(0, 255, 245, 0.7);
+                cursor: pointer;
+                transition: all 0.15s;
+                display: inline-block;
+            }
+            .cyber-bal-amt.glitch {
+                animation: glitchAnim 0.4s steps(2, end);
+            }
+            .cyber-btns {
+                display: flex;
+                gap: 10px;
+                margin-bottom: 14px;
+                position: relative;
+                z-index: 1;
+            }
+            .cy-demo-btn {
+                flex: 1;
+                padding: 10px 8px;
+                background: transparent;
+                font-family: 'Courier New', monospace;
+                font-size: 11px;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.1em;
+                cursor: pointer;
+                position: relative;
+                overflow: hidden;
+                border: 1px solid;
+                transition: all 0.2s;
+            }
+            .cy-demo-btn.teal {
+                border-color: rgba(0, 255, 245, 0.7);
+                color: #00fff5;
+            }
+            .cy-demo-btn.teal:hover {
+                background: rgba(0, 255, 245, 0.08);
+                box-shadow:
+                    0 0 14px rgba(0, 255, 245, 0.25),
+                    inset 0 0 10px rgba(0, 255, 245, 0.06);
+                text-shadow: 0 0 8px #00fff5;
+            }
+            .cy-demo-btn.red {
+                border-color: rgba(255, 0, 100, 0.7);
+                color: #ff0066;
+            }
+            .cy-demo-btn.red:hover {
+                background: rgba(255, 0, 100, 0.08);
+                box-shadow: 0 0 14px rgba(255, 0, 100, 0.25);
+                text-shadow: 0 0 8px #ff0066;
+            }
+            .cy-demo-btn::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.05),
+                    transparent
+                );
+                transition: left 0.3s;
+            }
+            .cy-demo-btn:hover::before {
+                left: 100%;
+            }
+            .cyber-terminal {
+                background: rgba(0, 0, 0, 0.7);
+                border: 1px solid rgba(0, 255, 245, 0.2);
+                padding: 10px 12px;
+                min-height: 54px;
+                position: relative;
+                z-index: 1;
+                font-family: 'Courier New', monospace;
+            }
+            .cyber-terminal-line {
+                font-size: 10px;
+                color: rgba(0, 255, 245, 0.7);
+                line-height: 1.6;
+            }
+            .cyber-terminal-line .prompt {
+                color: rgba(0, 255, 136, 0.8);
+            }
+            .cyber-cursor {
+                display: inline-block;
+                width: 7px;
+                height: 12px;
+                background: #00fff5;
+                animation: blink 0.7s step-end infinite;
+                vertical-align: text-bottom;
+                margin-left: 2px;
+            }
+
+            /* ============================================================
+   DEMO STYLES — MATERIAL DESIGN 3
+============================================================ */
+            .demo-md3 {
+                background: #fef7ff;
+                padding: 22px;
+                min-height: 220px;
+            }
+            .demo-md3-title {
+                font-size: 22px;
+                font-weight: 400;
+                color: #1c1b1f;
+                margin-bottom: 16px;
+                letter-spacing: -0.01em;
+            }
+            .md3-btns {
+                display: flex;
+                gap: 10px;
+                flex-wrap: wrap;
+                margin-bottom: 16px;
+            }
+            .md3-filled-btn {
+                background: #6750a4;
+                color: #fff;
+                border: none;
+                border-radius: 20px;
+                padding: 10px 22px;
+                font-size: 13px;
+                font-weight: 500;
+                cursor: pointer;
+                position: relative;
+                overflow: hidden;
+                box-shadow:
+                    0 1px 3px rgba(0, 0, 0, 0.2),
+                    0 1px 2px rgba(0, 0, 0, 0.14);
+                transition:
+                    box-shadow 0.2s,
+                    background 0.2s;
+                letter-spacing: 0.03em;
+            }
+            .md3-filled-btn:hover {
+                background: #7965af;
+                box-shadow:
+                    0 3px 6px rgba(0, 0, 0, 0.2),
+                    0 2px 4px rgba(0, 0, 0, 0.16);
+            }
+            .md3-tonal-btn {
+                background: #eaddff;
+                color: #21005d;
+                border: none;
+                border-radius: 20px;
+                padding: 10px 22px;
+                font-size: 13px;
+                font-weight: 500;
+                cursor: pointer;
+                position: relative;
+                overflow: hidden;
+                transition: background 0.2s;
+                letter-spacing: 0.03em;
+            }
+            .md3-tonal-btn:hover {
+                background: #e2d4f8;
+            }
+            .md3-outlined-btn {
+                background: transparent;
+                color: #6750a4;
+                border: 1px solid #cac4d0;
+                border-radius: 20px;
+                padding: 10px 22px;
+                font-size: 13px;
+                font-weight: 500;
+                cursor: pointer;
+                position: relative;
+                overflow: hidden;
+                transition: background 0.2s;
+                letter-spacing: 0.03em;
+            }
+            .md3-outlined-btn:hover {
+                background: rgba(103, 80, 164, 0.06);
+            }
+            .md3-ripple-ring {
+                position: absolute;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.35);
+                width: 0;
+                height: 0;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                animation: ripple-expand 0.55s cubic-bezier(0.4, 0, 0.2, 1)
+                    forwards;
+                pointer-events: none;
+            }
+            .md3-tonal-btn .md3-ripple-ring {
+                background: rgba(103, 80, 164, 0.22);
+            }
+            .md3-outlined-btn .md3-ripple-ring {
+                background: rgba(103, 80, 164, 0.18);
+            }
+            .md3-chips {
+                display: flex;
+                gap: 8px;
+                flex-wrap: wrap;
+                margin-bottom: 16px;
+            }
+            .md3-chip {
+                border: 1px solid #cac4d0;
+                border-radius: 8px;
+                padding: 6px 14px;
+                font-size: 12px;
+                color: #49454f;
+                background: #fff;
+                cursor: pointer;
+                transition:
+                    background 0.18s,
+                    border-color 0.18s;
+                display: flex;
+                align-items: center;
+                gap: 5px;
+            }
+            .md3-chip:hover {
+                background: #f3edf7;
+                border-color: #b0a7c0;
+            }
+            .md3-chip.active {
+                background: #eaddff;
+                border-color: #6750a4;
+                color: #21005d;
+                font-weight: 600;
+            }
+            .md3-fab {
+                width: 56px;
+                height: 56px;
+                border-radius: 16px;
+                background: #eaddff;
+                border: none;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 22px;
+                box-shadow:
+                    0 3px 6px 2px rgba(0, 0, 0, 0.15),
+                    0 2px 4px rgba(0, 0, 0, 0.2);
+                transition:
+                    box-shadow 0.2s,
+                    background 0.18s,
+                    transform 0.18s;
+                position: relative;
+                overflow: hidden;
+            }
+            .md3-fab:hover {
+                box-shadow:
+                    0 6px 10px 4px rgba(0, 0, 0, 0.15),
+                    0 2px 4px rgba(0, 0, 0, 0.2);
+                background: #d7c4f8;
+                transform: translateY(-2px);
+            }
+            .md3-bottom-row {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+            }
+            .md3-bottom-label {
+                flex: 1;
+                font-size: 12px;
+                color: #49454f;
+            }
+
+            /* ============================================================
+   DEMO STYLES — MINIMALISM
+============================================================ */
+            .demo-min {
+                background: #fff;
+                padding: 28px 28px 22px;
+                min-height: 220px;
+            }
+            .demo-min-nav {
+                display: flex;
+                gap: 24px;
+                margin-bottom: 24px;
+                border-bottom: 1px solid #ebebeb;
+                padding-bottom: 14px;
+            }
+            .min-nav-link {
+                font-size: 13px;
+                color: #999;
+                cursor: pointer;
+                padding-bottom: 14px;
+                margin-bottom: -15px;
+                position: relative;
+                transition: color 0.25s;
+                text-decoration: none;
+                -webkit-user-select: none;
+                user-select: none;
+            }
+            .min-nav-link::after {
+                content: '';
+                position: absolute;
+                bottom: -1px;
+                left: 0;
+                width: 0;
+                height: 1.5px;
+                background: #111;
+                transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            .min-nav-link:hover {
+                color: #111;
+            }
+            .min-nav-link:hover::after,
+            .min-nav-link.active::after {
+                width: 100%;
+            }
+            .min-nav-link.active {
+                color: #111;
+            }
+            .demo-min-amount {
+                font-weight: 200;
+                font-size: 38px;
+                letter-spacing: -0.04em;
+                color: #111;
+                line-height: 1;
+                margin-bottom: 6px;
+            }
+            .demo-min-label {
+                font-size: 10px;
+                color: #ccc;
+                text-transform: uppercase;
+                letter-spacing: 0.2em;
+                margin-bottom: 22px;
+            }
+            .demo-min-txns {
+                border-top: 1px solid #f5f5f5;
+            }
+            .min-txn-row {
+                display: flex;
+                align-items: center;
+                padding: 10px 0;
+                border-bottom: 1px solid #f5f5f5;
+                cursor: pointer;
+                transition: opacity 0.18s;
+            }
+            .min-txn-row:last-child {
+                border-bottom: none;
+            }
+            .min-txn-row:hover {
+                opacity: 0.6;
+            }
+            .min-txn-dot {
+                width: 7px;
+                height: 7px;
+                border-radius: 50%;
+                margin-right: 12px;
+                flex-shrink: 0;
+            }
+            .min-txn-name {
+                font-size: 13px;
+                color: #333;
+                flex: 1;
+                font-weight: 400;
+            }
+            .min-txn-amount {
+                font-size: 13px;
+                font-weight: 300;
+            }
+            .min-txn-amount.pos {
+                color: #27ae60;
+            }
+            .min-txn-amount.neg {
+                color: #999;
+            }
+            .demo-min-cta {
+                display: block;
+                margin-top: 18px;
+                width: 100%;
+                background: none;
+                border: none;
+                border-bottom: 1.5px solid #111;
+                padding: 8px 0;
+                font-size: 13px;
+                color: #111;
+                text-align: left;
+                cursor: pointer;
+                position: relative;
+                overflow: hidden;
+                letter-spacing: 0.02em;
+                transition: opacity 0.2s;
+            }
+            .demo-min-cta::after {
+                content: '→';
+                position: absolute;
+                right: 0;
+                top: 50%;
+                transform: translateY(-50%);
+                opacity: 0;
+                transition:
+                    opacity 0.2s,
+                    right 0.2s;
+            }
+            .demo-min-cta:hover::after {
+                opacity: 1;
+                right: 4px;
+            }
+            .demo-min-cta span {
+                display: inline-block;
+                transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+            }
+            .demo-min-cta:hover span {
+                transform: translateX(-16px);
+            }
+
+            /* ============================================================
+   FOOTER
+============================================================ */
+            .footer {
+                border-top: 1px solid var(--border);
+                padding: 28px 0 36px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 16px;
+                flex-wrap: wrap;
+            }
+            .footer-left {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+            .footer-logo {
+                width: 24px;
+                height: 24px;
+                background: var(--accent);
+                border-radius: 5px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 10px;
+                font-weight: 900;
+                color: #0d0c0b;
+            }
+            .footer-text {
+                font-size: 11px;
+                color: var(--text-dim);
+            }
+            .footer-note {
+                font-size: 11px;
+                color: var(--text-dim);
+            }
+
+            /* ============================================================
+   ANIMATIONS
+============================================================ */
+            @keyframes fadeUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(14px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            @keyframes pulse {
+                0%,
+                100% {
+                    opacity: 1;
+                    box-shadow: 0 0 8px var(--accent);
+                }
+                50% {
+                    opacity: 0.5;
+                    box-shadow: 0 0 2px var(--accent);
+                }
+            }
+            @keyframes scan {
+                from {
+                    top: 0;
+                }
+                to {
+                    top: 100%;
+                }
+            }
+            @keyframes blink {
+                0%,
+                100% {
+                    opacity: 1;
+                }
+                50% {
+                    opacity: 0;
+                }
+            }
+            @keyframes glitchAnim {
+                0% {
+                    clip-path: inset(0 0 80% 0);
+                    transform: skewX(-5deg);
+                    color: #ff0066;
+                    text-shadow: none;
+                }
+                20% {
+                    clip-path: inset(30% 0 40% 0);
+                    transform: skewX(4deg);
+                    color: #00fff5;
+                }
+                40% {
+                    clip-path: inset(60% 0 10% 0);
+                    transform: skewX(-3deg);
+                    color: #ff0066;
+                }
+                60% {
+                    clip-path: inset(10% 0 60% 0);
+                    transform: skewX(2deg);
+                }
+                80% {
+                    clip-path: inset(50% 0 20% 0);
+                    transform: skewX(-1deg);
+                }
+                100% {
+                    clip-path: none;
+                    transform: skewX(0);
+                    color: #00fff5;
+                    text-shadow: 0 0 12px rgba(0, 255, 245, 0.7);
+                }
+            }
+            @keyframes ripple-expand {
+                0% {
+                    width: 0;
+                    height: 0;
+                    opacity: 0.4;
+                }
+                100% {
+                    width: 300px;
+                    height: 300px;
+                    opacity: 0;
+                }
+            }
+
+            /* ============================================================
+   RESPONSIVE
+============================================================ */
+            @media (max-width: 600px) {
+                .cards-grid {
+                    grid-template-columns: 1fr;
+                }
+                .header {
+                    padding: 40px 0 36px;
+                    margin-bottom: 40px;
+                }
+                .hero-title {
+                    font-size: 36px;
+                }
+                .result-bar-track {
+                    display: none;
+                }
+                .demo-glass-cards {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+                .md3-btns {
+                    flex-direction: column;
+                }
+            }
+            @media (min-width: 601px) and (max-width: 880px) {
+                .cards-grid {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+            }
+            @media (min-width: 881px) {
+                .cards-grid {
+                    grid-template-columns: repeat(
+                        auto-fill,
+                        minmax(280px, 1fr)
+                    );
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <!-- HEADER -->
+            <header class="header">
+                <div class="brand">
+                    <div class="brand-logo">N</div>
+                    <span class="brand-name">Neraxa</span>
+                    <div class="brand-divider"></div>
+                    <span class="brand-badge">Design Vote</span>
+                </div>
+                <div class="hero-eyebrow">
+                    <div class="eyebrow-dot"></div>
+                    <span class="eyebrow-text"
+                        >Community Survey · Open Now</span
+                    >
+                </div>
+                <h1 class="hero-title">
+                    Shape the look<br />of <em>Neraxa</em>
+                </h1>
+                <p class="hero-desc">
+                    We're choosing the visual direction for our finance tracker.
+                    Cast your vote for the design language you'd love to use —
+                    the top 3 styles will actually be built into the product.
+                </p>
+                <div class="hero-pills">
+                    <div class="pill"><span>✦</span> One vote per person</div>
+                    <div class="pill"><span>✦</span> Top 3 get developed</div>
+                    <div class="pill"><span>✦</span> 7 design styles</div>
+                </div>
+            </header>
+
+            <!-- VOTED NOTICE -->
+            <div class="voted-notice" id="votedNotice">
+                <div class="voted-notice-icon">✓</div>
+                <span
+                    >You've already cast your vote. Results are shown
+                    below.</span
+                >
+            </div>
+
+            <!-- VOTE SECTION -->
+            <section id="voteSection">
+                <div class="section-eyebrow">Step 01 — Select</div>
+                <h2 class="section-title">
+                    Choose your preferred design style
+                </h2>
+                <p class="section-sub">
+                    Click a card to select it. Hit
+                    <strong style="color: var(--text-muted)">Try it →</strong>
+                    to explore how each style feels interactively.
+                </p>
+
+                <div class="cards-grid" id="cardsGrid">
+                    <!-- NEO-BRUTALISM -->
+                    <div
+                        class="design-card"
+                        data-design="Neo-Brutalism"
+                        role="button"
+                        tabindex="0">
+                        <input
+                            type="radio"
+                            name="design"
+                            value="Neo-Brutalism"
+                            class="card-radio" />
+                        <div class="card-top">
+                            <span class="card-name">Neo-Brutalism</span>
+                            <div class="card-radio-ui">
+                                <div class="card-radio-dot"></div>
+                            </div>
+                        </div>
+                        <p class="card-desc">
+                            Thick black borders, bright contrasting colors,
+                            large typography, raw and bold UI elements.
+                        </p>
+                        <div class="mock-wrap">
+                            <div class="mock-neo">
+                                <div class="nb-bal">
+                                    <span class="nb-lbl">Balance</span
+                                    ><span class="nb-amt">$12,430</span>
+                                </div>
+                                <div class="nb-row">
+                                    <div class="nb-stat inc">
+                                        <span class="nb-slbl">Income</span
+                                        ><span class="nb-sval">+$3,200</span>
+                                    </div>
+                                    <div class="nb-stat exp">
+                                        <span class="nb-slbl">Expense</span
+                                        ><span class="nb-sval">-$1,840</span>
+                                    </div>
+                                </div>
+                                <div class="nb-txs">
+                                    <div class="nb-tx">
+                                        <span>Netflix</span><span>-$15</span>
+                                    </div>
+                                    <div class="nb-tx">
+                                        <span>Salary</span><span>+$3,200</span>
+                                    </div>
+                                    <div class="nb-tx">
+                                        <span>Groceries</span><span>-$82</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="card-try-btn" data-demo="Neo-Brutalism">
+                            Try it <span class="tib">→</span>
+                        </button>
+                    </div>
+
+                    <!-- GLASSMORPHISM -->
+                    <div
+                        class="design-card"
+                        data-design="Glassmorphism"
+                        role="button"
+                        tabindex="0">
+                        <input
+                            type="radio"
+                            name="design"
+                            value="Glassmorphism"
+                            class="card-radio" />
+                        <div class="card-top">
+                            <span class="card-name">Glassmorphism</span>
+                            <div class="card-radio-ui">
+                                <div class="card-radio-dot"></div>
+                            </div>
+                        </div>
+                        <p class="card-desc">
+                            Transparent glass-like panels, blurred gradients,
+                            soft semi-transparent borders.
+                        </p>
+                        <div class="mock-wrap">
+                            <div class="mock-glass">
+                                <div class="gb1"></div>
+                                <div class="gb2"></div>
+                                <div class="gl-panel">
+                                    <span class="gl-lbl">Balance</span
+                                    ><span class="gl-amt">$12,430</span>
+                                </div>
+                                <div class="gl-row">
+                                    <div class="gl-stat">
+                                        <span class="gl-slbl">Income</span
+                                        ><span class="gl-sval">+$3,200</span>
+                                    </div>
+                                    <div class="gl-stat">
+                                        <span class="gl-slbl">Expense</span
+                                        ><span class="gl-sval">-$1,840</span>
+                                    </div>
+                                </div>
+                                <div class="gl-txs">
+                                    <div class="gl-tx">
+                                        <span>Netflix</span><span>-$15</span>
+                                    </div>
+                                    <div class="gl-tx">
+                                        <span>Salary</span><span>+$3,200</span>
+                                    </div>
+                                    <div class="gl-tx">
+                                        <span>Groceries</span><span>-$82</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="card-try-btn" data-demo="Glassmorphism">
+                            Try it <span class="tib">→</span>
+                        </button>
+                    </div>
+
+                    <!-- NEUMORPHISM -->
+                    <div
+                        class="design-card"
+                        data-design="Neumorphism"
+                        role="button"
+                        tabindex="0">
+                        <input
+                            type="radio"
+                            name="design"
+                            value="Neumorphism"
+                            class="card-radio" />
+                        <div class="card-top">
+                            <span class="card-name">Neumorphism</span>
+                            <div class="card-radio-ui">
+                                <div class="card-radio-dot"></div>
+                            </div>
+                        </div>
+                        <p class="card-desc">
+                            Soft shadows, embossed and debossed effects,
+                            elements blending into the background surface.
+                        </p>
+                        <div class="mock-wrap">
+                            <div class="mock-neu">
+                                <div class="nm-panel">
+                                    <span class="nm-lbl">Balance</span
+                                    ><span class="nm-amt">$12,430</span>
+                                </div>
+                                <div class="nm-row">
+                                    <div class="nm-stat">
+                                        <span class="nm-slbl">Income</span
+                                        ><span class="nm-sval inc"
+                                            >+$3,200</span
+                                        >
+                                    </div>
+                                    <div class="nm-stat">
+                                        <span class="nm-slbl">Expense</span
+                                        ><span class="nm-sval exp"
+                                            >-$1,840</span
+                                        >
+                                    </div>
+                                </div>
+                                <div class="nm-txs">
+                                    <div class="nm-tx">
+                                        <span>Netflix</span><span>-$15</span>
+                                    </div>
+                                    <div class="nm-tx">
+                                        <span>Salary</span><span>+$3,200</span>
+                                    </div>
+                                    <div class="nm-tx">
+                                        <span>Groceries</span><span>-$82</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="card-try-btn" data-demo="Neumorphism">
+                            Try it <span class="tib">→</span>
+                        </button>
+                    </div>
+
+                    <!-- CLAYMORPHISM -->
+                    <div
+                        class="design-card"
+                        data-design="Claymorphism"
+                        role="button"
+                        tabindex="0">
+                        <input
+                            type="radio"
+                            name="design"
+                            value="Claymorphism"
+                            class="card-radio" />
+                        <div class="card-top">
+                            <span class="card-name">Claymorphism</span>
+                            <div class="card-radio-ui">
+                                <div class="card-radio-dot"></div>
+                            </div>
+                        </div>
+                        <p class="card-desc">
+                            Rounded chunky elements, pastel colors, thick
+                            solid-offset shadows giving a 3D clay-like lift.
+                        </p>
+                        <div class="mock-wrap">
+                            <div class="mock-clay">
+                                <div class="cl-hero">
+                                    <span class="cl-lbl">Balance</span
+                                    ><span class="cl-amt">$12,430</span>
+                                </div>
+                                <div class="cl-row">
+                                    <div class="cl-stat inc">
+                                        <span class="cl-slbl">Income</span
+                                        ><span class="cl-sval">+$3,200</span>
+                                    </div>
+                                    <div class="cl-stat exp">
+                                        <span class="cl-slbl">Expense</span
+                                        ><span class="cl-sval">-$1,840</span>
+                                    </div>
+                                </div>
+                                <div class="cl-txs">
+                                    <div class="cl-tx">
+                                        <span>Netflix</span><span>-$15</span>
+                                    </div>
+                                    <div class="cl-tx">
+                                        <span>Salary</span><span>+$3,200</span>
+                                    </div>
+                                    <div class="cl-tx">
+                                        <span>Groceries</span><span>-$82</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="card-try-btn" data-demo="Claymorphism">
+                            Try it <span class="tib">→</span>
+                        </button>
+                    </div>
+
+                    <!-- CYBERPUNK UI -->
+                    <div
+                        class="design-card"
+                        data-design="Cyberpunk UI"
+                        role="button"
+                        tabindex="0">
+                        <input
+                            type="radio"
+                            name="design"
+                            value="Cyberpunk UI"
+                            class="card-radio" />
+                        <div class="card-top">
+                            <span class="card-name">Cyberpunk UI</span>
+                            <div class="card-radio-ui">
+                                <div class="card-radio-dot"></div>
+                            </div>
+                        </div>
+                        <p class="card-desc">
+                            Dark futuristic interface, neon glow accents, sci-fi
+                            grid overlays, cyber aesthetics.
+                        </p>
+                        <div class="mock-wrap">
+                            <div class="mock-cyber">
+                                <div class="cy-grid"></div>
+                                <div class="cy-scan"></div>
+                                <div class="cy-panel">
+                                    <span class="cy-lbl">Balance</span
+                                    ><span class="cy-amt">$12,430</span>
+                                </div>
+                                <div class="cy-row">
+                                    <div class="cy-stat inc">
+                                        <span class="cy-slbl">Income</span
+                                        ><span class="cy-sval">+$3,200</span>
+                                    </div>
+                                    <div class="cy-stat exp">
+                                        <span class="cy-slbl">Expense</span
+                                        ><span class="cy-sval">-$1,840</span>
+                                    </div>
+                                </div>
+                                <div class="cy-txs">
+                                    <div class="cy-tx">
+                                        <span>Netflix</span><span>-$15</span>
+                                    </div>
+                                    <div class="cy-tx">
+                                        <span>Salary</span><span>+$3,200</span>
+                                    </div>
+                                    <div class="cy-tx">
+                                        <span>Groceries</span><span>-$82</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="card-try-btn" data-demo="Cyberpunk UI">
+                            Try it <span class="tib">→</span>
+                        </button>
+                    </div>
+
+                    <!-- MATERIAL DESIGN 3 -->
+                    <div
+                        class="design-card"
+                        data-design="Material Design"
+                        role="button"
+                        tabindex="0">
+                        <input
+                            type="radio"
+                            name="design"
+                            value="Material Design"
+                            class="card-radio" />
+                        <div class="card-top">
+                            <span class="card-name">Material Design 3</span>
+                            <div class="card-radio-ui">
+                                <div class="card-radio-dot"></div>
+                            </div>
+                        </div>
+                        <p class="card-desc">
+                            Google's design system — tonal color palettes,
+                            rounded containers, expressive elevation.
+                        </p>
+                        <div class="mock-wrap">
+                            <div class="mock-md">
+                                <div class="md-hero">
+                                    <span class="md-hlbl">Balance</span
+                                    ><span class="md-hamt">$12,430</span>
+                                </div>
+                                <div class="md-row">
+                                    <div class="md-stat inc">
+                                        <span class="md-slbl">Income</span
+                                        ><span class="md-sval">+$3,200</span>
+                                    </div>
+                                    <div class="md-stat exp">
+                                        <span class="md-slbl">Expense</span
+                                        ><span class="md-sval">-$1,840</span>
+                                    </div>
+                                </div>
+                                <div class="md-txs">
+                                    <div class="md-tx">
+                                        <span>Netflix</span><span>-$15</span>
+                                    </div>
+                                    <div class="md-tx">
+                                        <span>Salary</span><span>+$3,200</span>
+                                    </div>
+                                    <div class="md-tx">
+                                        <span>Groceries</span><span>-$82</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button
+                            class="card-try-btn"
+                            data-demo="Material Design">
+                            Try it <span class="tib">→</span>
+                        </button>
+                    </div>
+
+                    <!-- MINIMALISM -->
+                    <div
+                        class="design-card"
+                        data-design="Minimalism"
+                        role="button"
+                        tabindex="0">
+                        <input
+                            type="radio"
+                            name="design"
+                            value="Minimalism"
+                            class="card-radio" />
+                        <div class="card-top">
+                            <span class="card-name">Minimalism</span>
+                            <div class="card-radio-ui">
+                                <div class="card-radio-dot"></div>
+                            </div>
+                        </div>
+                        <p class="card-desc">
+                            Generous whitespace, typography-led hierarchy,
+                            ultra-clean 2D interface with restraint.
+                        </p>
+                        <div class="mock-wrap">
+                            <div class="mock-min">
+                                <span class="mn-lbl">Total Balance</span
+                                ><span class="mn-amt">$12,430</span>
+                                <div class="mn-hr"></div>
+                                <div class="mn-row">
+                                    <div>
+                                        <span class="mn-slbl">Income</span
+                                        ><span class="mn-sval inc">$3,200</span>
+                                    </div>
+                                    <div>
+                                        <span class="mn-slbl">Expense</span
+                                        ><span class="mn-sval exp">$1,840</span>
+                                    </div>
+                                </div>
+                                <div class="mn-tx">
+                                    <span>Netflix</span><span>−$15</span>
+                                </div>
+                                <div class="mn-tx">
+                                    <span>Salary</span><span>+$3,200</span>
+                                </div>
+                                <div class="mn-tx">
+                                    <span>Groceries</span><span>−$82</span>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="card-try-btn" data-demo="Minimalism">
+                            Try it <span class="tib">→</span>
+                        </button>
+                    </div>
+                </div>
+                <!-- /cards-grid -->
+
+                <div class="submit-wrap" id="submitWrap">
+                    <button class="btn-vote" id="btnVote">Cast My Vote</button>
+                    <span class="submit-note" id="submitNote"
+                        >Select a design style to continue</span
+                    >
+                </div>
+            </section>
+
+            <!-- CONFIRMATION -->
+            <div class="confirmation" id="confirmation">
+                <div class="conf-check">✓</div>
+                <h3 class="conf-title">Your vote is in!</h3>
+                <p class="conf-sub" id="confSub">
+                    Thank you for helping shape Neraxa's future.
+                </p>
+            </div>
+
+            <!-- RESULTS -->
+            <section class="results-section" id="resultsSection">
+                <div class="section-eyebrow">Step 02 — Results</div>
+                <h2 class="section-title">Community Preferences</h2>
+                <p class="section-sub">
+                    The top 3 highlighted styles will be developed and shipped
+                    in Neraxa.
+                </p>
+                <div class="results-list" id="resultsList"></div>
+            </section>
+
+            <!-- FOOTER -->
+            <footer class="footer">
+                <div class="footer-left">
+                    <div class="footer-logo">N</div>
+                    <span class="footer-text"
+                        >Neraxa · Design Community Vote</span
+                    >
+                </div>
+                <span class="footer-note"
+                    >Results are local to this browser session</span
+                >
+            </footer>
+        </div>
+        <!-- /container -->
+
+        <!-- MODAL -->
+        <div
+            class="modal-overlay"
+            id="modalOverlay"
+            role="dialog"
+            aria-modal="true">
+            <div class="modal-box" id="modalBox">
+                <div class="modal-header">
+                    <div>
+                        <div class="modal-eyebrow">Interactive Preview</div>
+                        <div class="modal-title" id="modalTitle">
+                            Neo-Brutalism
+                        </div>
+                    </div>
+                    <button
+                        class="modal-close"
+                        id="modalClose"
+                        aria-label="Close">
+                        ✕
+                    </button>
+                </div>
+                <p class="modal-desc" id="modalDesc"></p>
+                <div class="modal-demo" id="modalDemo"></div>
+            </div>
+        </div>
+
+        <script>
+            /* ============================================================
+   STORAGE
+============================================================ */
+            const KEY_VOTED = 'neraxa_v1_voted',
+                KEY_CHOICE = 'neraxa_v1_choice',
+                KEY_VOTES = 'neraxa_v1_votes';
+            const SEED = {
+                'Neo-Brutalism': 47,
+                Glassmorphism: 89,
+                Neumorphism: 34,
+                Claymorphism: 56,
+                'Cyberpunk UI': 73,
+                'Material Design': 61,
+                Minimalism: 45,
+            };
+            const MEDALS = { 0: '🥇', 1: '🥈', 2: '🥉' };
+            function getVotes() {
+                try {
+                    const r = localStorage.getItem(KEY_VOTES);
+                    if (r) return JSON.parse(r);
+                } catch (_) {}
+                return { ...SEED };
+            }
+            function saveVotes(v) {
+                try {
+                    localStorage.setItem(KEY_VOTES, JSON.stringify(v));
+                } catch (_) {}
+            }
+            function hasVoted() {
+                try {
+                    return localStorage.getItem(KEY_VOTED) === 'true';
+                } catch (_) {
+                    return false;
+                }
+            }
+            function getPrevChoice() {
+                try {
+                    return localStorage.getItem(KEY_CHOICE) || '';
+                } catch (_) {
+                    return '';
+                }
+            }
+
+            /* ============================================================
+   INTERACTIVE DEMOS
+============================================================ */
+            const DEMOS = {
+                'Neo-Brutalism': {
+                    desc: 'Click buttons to feel them physically press down. Check/uncheck the toggles.',
+                    html: `<div class="demo-neo">
+  <div class="demo-neo-title">Control Panel</div>
+  <div class="demo-neo-btns">
+    <button class="nb-demo-btn">Add Expense</button>
+    <button class="nb-demo-btn accent">Transfer</button>
+    <button class="nb-demo-btn">History</button>
+  </div>
+  <div class="demo-neo-checks">
+    <label class="nb-check-wrap"><input type="checkbox" class="nb-check-input"><span class="nb-check-box"></span><span class="nb-check-lbl">Auto-Save</span></label>
+    <label class="nb-check-wrap"><input type="checkbox" class="nb-check-input" checked><span class="nb-check-box"></span><span class="nb-check-lbl">Notifications</span></label>
+    <label class="nb-check-wrap"><input type="checkbox" class="nb-check-input"><span class="nb-check-box"></span><span class="nb-check-lbl">Dark Mode</span></label>
+  </div>
+</div>`,
+                    init() {
+                        document
+                            .querySelectorAll('.nb-demo-btn')
+                            .forEach((btn) => {
+                                btn.addEventListener('mousedown', () =>
+                                    btn.classList.add('pressed'),
+                                );
+                                btn.addEventListener('mouseup', () =>
+                                    btn.classList.remove('pressed'),
+                                );
+                                btn.addEventListener('mouseleave', () =>
+                                    btn.classList.remove('pressed'),
+                                );
+                            });
+                    },
+                },
+
+                Glassmorphism: {
+                    desc: 'Move your cursor over each glass card to see the 3D tilt effect. Hover the button for the shimmer sweep.',
+                    html: `<div class="demo-glass">
+  <div class="demo-glass-bg-orb1"></div>
+  <div class="demo-glass-bg-orb2"></div>
+  <div class="demo-glass-bg-orb3"></div>
+  <div class="demo-glass-cards">
+    <div class="gl-demo-card"><span class="gl-clbl">Balance</span><span class="gl-cval">$12,430</span><span class="gl-csub">↑ 12% this month</span></div>
+    <div class="gl-demo-card"><span class="gl-clbl">Income</span><span class="gl-cval">$3,200</span><span class="gl-csub">Mar 2026</span></div>
+    <div class="gl-demo-card"><span class="gl-clbl">Expenses</span><span class="gl-cval">$1,840</span><span class="gl-csub">Mar 2026</span></div>
+  </div>
+  <button class="gl-demo-btn">+ Add Transaction</button>
+</div>`,
+                    init() {
+                        document
+                            .querySelectorAll('.gl-demo-card')
+                            .forEach((card) => {
+                                card.addEventListener('mousemove', (e) => {
+                                    const r = card.getBoundingClientRect();
+                                    const x =
+                                        (e.clientX - r.left - r.width / 2) /
+                                        (r.width / 2);
+                                    const y =
+                                        (e.clientY - r.top - r.height / 2) /
+                                        (r.height / 2);
+                                    card.style.transform = `perspective(280px) rotateX(${-y * 12}deg) rotateY(${x * 12}deg) scale(1.05)`;
+                                    card.style.transition = 'transform .08s';
+                                });
+                                card.addEventListener('mouseleave', () => {
+                                    card.style.transition =
+                                        'transform .5s cubic-bezier(.2,.8,.2,1)';
+                                    card.style.transform =
+                                        'perspective(280px) rotateX(0) rotateY(0) scale(1)';
+                                });
+                            });
+                    },
+                },
+
+                Neumorphism: {
+                    desc: 'Toggle the switch on/off. Click and hold the button to feel it press inward. Drag the slider.',
+                    html: `<div class="demo-neu">
+  <div class="demo-neu-row"><span class="demo-neu-label">Notifications</span><div class="nm-toggle on" id="nmToggle"><div class="nm-thumb"></div></div></div>
+  <div class="demo-neu-row"><span class="demo-neu-label">Dark Mode</span><div class="nm-toggle" id="nmToggle2"><div class="nm-thumb"></div></div></div>
+  <button class="nm-pay-btn" id="nmPayBtn">Confirm Payment</button>
+  <div class="nm-slider-wrap">
+    <span class="nm-slider-lbl">Budget Limit — $1,200</span>
+    <div class="nm-slider-track" id="nmTrack">
+      <div class="nm-slider-fill" id="nmFill"></div>
+      <div class="nm-slider-thumb" id="nmThumb"></div>
+    </div>
+  </div>
+</div>`,
+                    init() {
+                        [
+                            document.getElementById('nmToggle'),
+                            document.getElementById('nmToggle2'),
+                        ].forEach((t) => {
+                            if (t)
+                                t.addEventListener('click', () =>
+                                    t.classList.toggle('on'),
+                                );
+                        });
+                        // Slider drag
+                        const track = document.getElementById('nmTrack');
+                        const fill = document.getElementById('nmFill');
+                        const thumb = document.getElementById('nmThumb');
+                        const lbl = document.querySelector('.nm-slider-lbl');
+                        if (!track) return;
+                        let dragging = false;
+                        let pct = 60;
+                        const update = (p) => {
+                            pct = Math.max(5, Math.min(95, p));
+                            fill.style.width = pct + '%';
+                            thumb.style.left = pct + '%';
+                            if (lbl)
+                                lbl.textContent = `Budget Limit — $${Math.round(pct * 20)}`;
+                        };
+                        update(60);
+                        thumb.addEventListener('mousedown', (e) => {
+                            dragging = true;
+                            e.preventDefault();
+                        });
+                        window.addEventListener('mousemove', (e) => {
+                            if (!dragging) return;
+                            const r = track.getBoundingClientRect();
+                            update(((e.clientX - r.left) / r.width) * 100);
+                        });
+                        window.addEventListener('mouseup', () => {
+                            dragging = false;
+                        });
+                        track.addEventListener('click', (e) => {
+                            const r = track.getBoundingClientRect();
+                            update(((e.clientX - r.left) / r.width) * 100);
+                        });
+                    },
+                },
+
+                Claymorphism: {
+                    desc: 'Click and hold the buttons — feel them squish down and spring back. The 3D offset shadow is the clay signature.',
+                    html: `<div class="demo-clay">
+  <p class="demo-clay-title">Quick Actions</p>
+  <div class="demo-clay-btns">
+    <button class="cl-demo-btn purple">+ Add</button>
+    <button class="cl-demo-btn green">Send</button>
+    <button class="cl-demo-btn pink">Delete</button>
+  </div>
+  <div class="demo-clay-chips">
+    <div class="cl-chip food">🍔 Food</div>
+    <div class="cl-chip travel">✈️ Travel</div>
+    <div class="cl-chip health">💊 Health</div>
+  </div>
+  <button class="cl-cta-btn">View Full Report</button>
+</div>`,
+                    init() {},
+                },
+
+                'Cyberpunk UI': {
+                    desc: 'Hover over the balance to trigger a glitch effect. Click EXECUTE to run a terminal sequence.',
+                    html: `<div class="demo-cyber">
+  <div class="demo-cyber-grid"></div>
+  <div class="demo-cyber-scan"></div>
+  <div class="cyber-balance">
+    <span class="cyber-bal-lbl">// vault_balance</span>
+    <span class="cyber-bal-amt" id="cyAmt" title="Hover to glitch">$12,430.00</span>
+  </div>
+  <div class="cyber-btns">
+    <button class="cy-demo-btn teal" id="cyExec">EXECUTE</button>
+    <button class="cy-demo-btn red" id="cyReset">RESET</button>
+  </div>
+  <div class="cyber-terminal" id="cyTerminal">
+    <div class="cyber-terminal-line"><span class="prompt">&gt; </span>NERAXA_OS v2.77 ready<span class="cyber-cursor"></span></div>
+  </div>
+</div>`,
+                    init() {
+                        const amt = document.getElementById('cyAmt');
+                        if (amt) {
+                            amt.addEventListener('mouseenter', () => {
+                                amt.classList.add('glitch');
+                                setTimeout(
+                                    () => amt.classList.remove('glitch'),
+                                    450,
+                                );
+                            });
+                        }
+                        const terminal = document.getElementById('cyTerminal');
+                        const execBtn = document.getElementById('cyExec');
+                        const resetBtn = document.getElementById('cyReset');
+                        const lines = [
+                            'SCANNING LEDGER...',
+                            'ANALYZING 47 TRANSACTIONS...',
+                            'DECRYPTING VAULT... OK',
+                            'BALANCE VERIFIED: <span style="color:#00ff88">$12,430.00</span>',
+                            'ACCESS GRANTED. <span style="color:#00ff88">SYSTEM SECURE.</span>',
+                        ];
+                        let running = false;
+                        function typeLines() {
+                            if (running) return;
+                            running = true;
+                            terminal.innerHTML =
+                                '<div class="cyber-terminal-line"><span class="prompt">&gt; </span>INITIATING PROTOCOL...<span class="cyber-cursor"></span></div>';
+                            let i = 0;
+                            const next = () => {
+                                if (i >= lines.length) {
+                                    running = false;
+                                    return;
+                                }
+                                const div = document.createElement('div');
+                                div.className = 'cyber-terminal-line';
+                                div.innerHTML = `<span class="prompt">&gt; </span>${lines[i]}<span class="cyber-cursor"></span>`;
+                                terminal
+                                    .querySelectorAll('.cyber-cursor')
+                                    .forEach((c) => c.remove());
+                                terminal.appendChild(div);
+                                terminal.scrollTop = terminal.scrollHeight;
+                                i++;
+                                setTimeout(next, 480);
+                            };
+                            setTimeout(next, 300);
+                        }
+                        if (execBtn)
+                            execBtn.addEventListener('click', typeLines);
+                        if (resetBtn)
+                            resetBtn.addEventListener('click', () => {
+                                running = false;
+                                terminal.innerHTML =
+                                    '<div class="cyber-terminal-line"><span class="prompt">&gt; </span>NERAXA_OS v2.77 ready<span class="cyber-cursor"></span></div>';
+                            });
+                    },
+                },
+
+                'Material Design': {
+                    desc: 'Click any button to see the ripple effect. Toggle the category chips. Click the FAB.',
+                    html: `<div class="demo-md3">
+  <p class="demo-md3-title">Transactions</p>
+  <div class="md3-btns">
+    <button class="md3-filled-btn">Add Expense</button>
+    <button class="md3-tonal-btn">Transfer</button>
+    <button class="md3-outlined-btn">View All</button>
+  </div>
+  <div class="md3-chips">
+    <div class="md3-chip active">All</div>
+    <div class="md3-chip">Food</div>
+    <div class="md3-chip">Travel</div>
+    <div class="md3-chip">Bills</div>
+  </div>
+  <div class="md3-bottom-row">
+    <span class="md3-bottom-label">Tap FAB to add a new transaction instantly</span>
+    <button class="md3-fab" id="md3Fab">+</button>
+  </div>
+</div>`,
+                    init() {
+                        // Ripple on all buttons
+                        document
+                            .querySelectorAll(
+                                '.md3-filled-btn,.md3-tonal-btn,.md3-outlined-btn,.md3-fab',
+                            )
+                            .forEach((btn) => {
+                                btn.addEventListener('click', (e) => {
+                                    const ring = document.createElement('span');
+                                    ring.className = 'md3-ripple-ring';
+                                    const r = btn.getBoundingClientRect();
+                                    ring.style.top =
+                                        e.clientY - r.top - 150 + 'px';
+                                    ring.style.left =
+                                        e.clientX - r.left - 150 + 'px';
+                                    btn.appendChild(ring);
+                                    ring.addEventListener('animationend', () =>
+                                        ring.remove(),
+                                    );
+                                });
+                            });
+                        // FAB bounce
+                        const fab = document.getElementById('md3Fab');
+                        if (fab) {
+                            fab.addEventListener('click', () => {
+                                fab.style.transform =
+                                    'scale(.88) rotate(45deg)';
+                                setTimeout(() => {
+                                    fab.style.transform = '';
+                                    fab.style.transition =
+                                        'transform .4s cubic-bezier(.34,1.56,.64,1)';
+                                }, 180);
+                            });
+                        }
+                        // Chip toggle
+                        document
+                            .querySelectorAll('.md3-chip')
+                            .forEach((chip) => {
+                                chip.addEventListener('click', () => {
+                                    document
+                                        .querySelectorAll('.md3-chip')
+                                        .forEach((c) =>
+                                            c.classList.remove('active'),
+                                        );
+                                    chip.classList.add('active');
+                                });
+                            });
+                    },
+                },
+
+                Minimalism: {
+                    desc: 'Hover the navigation links to see the underline animation. Hover the button. Click the transactions.',
+                    html: `<div class="demo-min">
+  <nav class="demo-min-nav">
+    <span class="min-nav-link active">Overview</span>
+    <span class="min-nav-link">Transactions</span>
+    <span class="min-nav-link">Analytics</span>
+    <span class="min-nav-link">Settings</span>
+  </nav>
+  <p class="demo-min-amount">$12,430</p>
+  <p class="demo-min-label">Total Balance — March 2026</p>
+  <div class="demo-min-txns">
+    <div class="min-txn-row"><div class="min-txn-dot" style="background:#27ae60"></div><span class="min-txn-name">Salary</span><span class="min-txn-amount pos">+$3,200</span></div>
+    <div class="min-txn-row"><div class="min-txn-dot" style="background:#ddd"></div><span class="min-txn-name">Netflix</span><span class="min-txn-amount neg">−$15</span></div>
+    <div class="min-txn-row"><div class="min-txn-dot" style="background:#ddd"></div><span class="min-txn-name">Groceries</span><span class="min-txn-amount neg">−$82</span></div>
+  </div>
+  <button class="demo-min-cta"><span>See all transactions</span></button>
+</div>`,
+                    init() {
+                        document
+                            .querySelectorAll('.min-nav-link')
+                            .forEach((link) => {
+                                link.addEventListener('click', () => {
+                                    document
+                                        .querySelectorAll('.min-nav-link')
+                                        .forEach((l) =>
+                                            l.classList.remove('active'),
+                                        );
+                                    link.classList.add('active');
+                                });
+                            });
+                    },
+                },
+            };
+
+            /* ============================================================
+   MODAL LOGIC
+============================================================ */
+            const modalOverlay = document.getElementById('modalOverlay');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalDesc = document.getElementById('modalDesc');
+            const modalDemo = document.getElementById('modalDemo');
+            const modalClose = document.getElementById('modalClose');
+
+            function openModal(designName) {
+                const demo = DEMOS[designName];
+                if (!demo) return;
+                modalTitle.textContent = designName;
+                modalDesc.textContent = demo.desc;
+                modalDemo.innerHTML = demo.html;
+                modalOverlay.classList.add('open');
+                document.body.style.overflow = 'hidden';
+                if (demo.init) setTimeout(() => demo.init(), 60);
+            }
+
+            function closeModal() {
+                modalOverlay.classList.remove('open');
+                document.body.style.overflow = '';
+                setTimeout(() => {
+                    modalDemo.innerHTML = '';
+                }, 300);
+            }
+
+            modalClose.addEventListener('click', closeModal);
+            modalOverlay.addEventListener('click', (e) => {
+                if (e.target === modalOverlay) closeModal();
+            });
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') closeModal();
+            });
+
+            /* ============================================================
+   CARD SELECTION
+============================================================ */
+            const cardsGrid = document.getElementById('cardsGrid');
+            const btnVote = document.getElementById('btnVote');
+            const submitNote = document.getElementById('submitNote');
+            const submitWrap = document.getElementById('submitWrap');
+            const confirmation = document.getElementById('confirmation');
+            const confSub = document.getElementById('confSub');
+            const resultsSection = document.getElementById('resultsSection');
+            const resultsList = document.getElementById('resultsList');
+            const votedNotice = document.getElementById('votedNotice');
+            const allCards = cardsGrid.querySelectorAll('.design-card');
+            let currentSelection = null;
+
+            allCards.forEach((card) => {
+                card.addEventListener('click', (e) => {
+                    if (card.classList.contains('voted-locked')) return;
+                    if (e.target.closest('.card-try-btn')) return; // don't select on try-it click
+                    allCards.forEach((c) => c.classList.remove('selected'));
+                    card.classList.add('selected');
+                    card.querySelector('.card-radio').checked = true;
+                    currentSelection = card.dataset.design;
+                    btnVote.classList.add('active');
+                    submitNote.textContent = `Selected: ${currentSelection}`;
+                });
+                card.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        card.click();
+                    }
+                });
+            });
+
+            // Try-it buttons
+            document.querySelectorAll('.card-try-btn').forEach((btn) => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    openModal(btn.dataset.demo);
+                });
+            });
+
+            /* ============================================================
+   SUBMIT
+============================================================ */
+            btnVote.addEventListener('click', () => {
+                if (!currentSelection || hasVoted()) return;
+                const votes = getVotes();
+                votes[currentSelection] = (votes[currentSelection] || 0) + 1;
+                saveVotes(votes);
+                try {
+                    localStorage.setItem(KEY_VOTED, 'true');
+                    localStorage.setItem(KEY_CHOICE, currentSelection);
+                } catch (_) {}
+                lockCards();
+                submitWrap.style.display = 'none';
+                confSub.textContent = `You voted for "${currentSelection}". Thank you for shaping Neraxa!`;
+                confirmation.classList.add('visible');
+                setTimeout(
+                    () =>
+                        confirmation.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'nearest',
+                        }),
+                    80,
+                );
+                setTimeout(() => {
+                    renderResults(currentSelection);
+                    resultsSection.classList.add('visible');
+                }, 350);
+                setTimeout(
+                    () =>
+                        resultsSection.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start',
+                        }),
+                    700,
+                );
+            });
+
+            function lockCards() {
+                allCards.forEach((card) => {
+                    card.classList.add('voted-locked');
+                    card.style.cursor = 'default';
+                });
+            }
+
+            /* ============================================================
+   RESULTS
+============================================================ */
+            function renderResults(userChoice) {
+                const votes = getVotes();
+                const sorted = Object.entries(votes).sort(
+                    (a, b) => b[1] - a[1],
+                );
+                const maxV = sorted[0][1];
+                const top3 = new Set(sorted.slice(0, 3).map((e) => e[0]));
+                resultsList.innerHTML = '';
+                sorted.forEach(([name, count], idx) => {
+                    const isTop = top3.has(name);
+                    const pct = Math.round((count / maxV) * 100);
+                    const isYours = name === userChoice;
+                    const row = document.createElement('div');
+                    row.className =
+                        'result-row' +
+                        (isTop ? ' top-3' : '') +
+                        (idx === 0 ? ' rank-1' : '');
+                    row.innerHTML = `<div class="result-medal">${MEDALS[idx] || ''}</div><div class="result-name">${name}</div>${isYours ? '<div class="result-voted-you">Your vote</div>' : ''}<div class="result-bar-track"><div class="result-bar-fill" data-pct="${pct}" style="width:0%"></div></div><div class="result-count">${count}</div>`;
+                    resultsList.appendChild(row);
+                });
+                requestAnimationFrame(() =>
+                    requestAnimationFrame(() => {
+                        resultsList
+                            .querySelectorAll('.result-bar-fill')
+                            .forEach((bar) => {
+                                bar.style.width = bar.dataset.pct + '%';
+                            });
+                    }),
+                );
+            }
+
+            /* ============================================================
+   INIT
+============================================================ */
+            function init() {
+                if (hasVoted()) {
+                    const prev = getPrevChoice();
+                    votedNotice.classList.add('visible');
+                    lockCards();
+                    if (prev)
+                        allCards.forEach((card) => {
+                            if (card.dataset.design === prev)
+                                card.classList.add('selected');
+                        });
+                    submitWrap.style.display = 'none';
+                    confSub.textContent = prev
+                        ? `You previously voted for "${prev}".`
+                        : 'Your vote has been recorded.';
+                    confirmation.classList.add('visible');
+                    renderResults(prev);
+                    resultsSection.classList.add('visible');
+                }
+            }
+            init();
+        </script>
+    </body>
+</html>

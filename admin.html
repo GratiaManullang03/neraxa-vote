@@ -1,0 +1,451 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Neraxa — Vote Admin</title>
+        <link rel="icon" type="image/png" href="favicon.png" />
+        <link rel="stylesheet" href="style.css" />
+        <style>
+            .admin-header {
+                padding: 20px 0 40px;
+                border-bottom: 1px solid var(--border);
+                margin-bottom: 40px;
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+                gap: 20px;
+                flex-wrap: wrap;
+            }
+            .admin-title-wrapper {
+                flex: 1;
+            }
+            .admin-title {
+                font-family: Georgia, serif;
+                font-size: clamp(28px, 4vw, 42px);
+                font-weight: 400;
+                letter-spacing: -0.025em;
+                margin-bottom: 8px;
+            }
+            .admin-subtitle {
+                font-size: 14px;
+                color: var(--text-muted);
+            }
+            .stats-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 16px;
+                margin-bottom: 40px;
+            }
+            .stat-card {
+                background: var(--surface);
+                border: 1px solid var(--border);
+                border-radius: 12px;
+                padding: 20px;
+            }
+            .stat-label {
+                font-size: 11px;
+                color: var(--text-dim);
+                text-transform: uppercase;
+                letter-spacing: 0.1em;
+                margin-bottom: 8px;
+            }
+            .stat-value {
+                font-size: 32px;
+                font-weight: 700;
+                color: var(--accent);
+            }
+            .results-table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-bottom: 40px;
+            }
+            .results-table th,
+            .results-table td {
+                padding: 14px 16px;
+                text-align: left;
+                border-bottom: 1px solid var(--border);
+            }
+            .results-table th {
+                font-size: 11px;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.1em;
+                color: var(--text-dim);
+            }
+            .results-table td {
+                font-size: 14px;
+            }
+            .rank-cell {
+                width: 50px;
+                text-align: center;
+            }
+            .medal {
+                font-size: 18px;
+            }
+            .design-name {
+                font-weight: 600;
+                color: var(--text);
+            }
+            .vote-count {
+                font-weight: 700;
+                color: var(--accent);
+                text-align: right;
+            }
+            .bar-container {
+                width: 200px;
+                height: 6px;
+                background: var(--border);
+                border-radius: 3px;
+                overflow: hidden;
+            }
+            .bar-fill {
+                height: 100%;
+                background: var(--accent);
+                border-radius: 3px;
+                transition: width 0.5s ease;
+            }
+            .notes-section-admin {
+                margin-top: 40px;
+            }
+            .notes-list {
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+                margin-top: 20px;
+            }
+            .note-card {
+                background: var(--surface);
+                border: 1px solid var(--border);
+                border-radius: 10px;
+                padding: 16px 18px;
+            }
+            .note-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 10px;
+            }
+            .note-design {
+                font-size: 12px;
+                font-weight: 600;
+                color: var(--accent);
+                background: var(--accent-glow-2);
+                padding: 3px 10px;
+                border-radius: 4px;
+            }
+            .note-date {
+                font-size: 11px;
+                color: var(--text-dim);
+            }
+            .note-text {
+                font-size: 14px;
+                color: var(--text-muted);
+                line-height: 1.6;
+            }
+            .no-notes {
+                text-align: center;
+                padding: 40px;
+                color: var(--text-dim);
+                font-size: 14px;
+            }
+            .refresh-btn {
+                background: var(--surface-2);
+                border: 1px solid var(--border-2);
+                color: var(--text-muted);
+                padding: 10px 20px;
+                border-radius: 8px;
+                font-size: 12px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.2s;
+            }
+            .refresh-btn:hover {
+                background: var(--border);
+                color: var(--text);
+            }
+            .back-link {
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+                font-size: 12px;
+                color: var(--text-muted);
+                text-decoration: none;
+                margin-bottom: 16px;
+                transition: color 0.2s;
+            }
+            .back-link:hover {
+                color: var(--accent);
+            }
+            .loading {
+                text-align: center;
+                padding: 40px;
+                color: var(--text-dim);
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header class="admin-header">
+                <div class="admin-title-wrapper">
+                    <a href="/" class="back-link">← Back to Vote</a>
+                    <h1 class="admin-title">Vote Results</h1>
+                    <p class="admin-subtitle">
+                        Real-time voting results for Neraxa design styles
+                    </p>
+                </div>
+                <button class="refresh-btn" id="refreshBtn">
+                    ↻ Refresh Results
+                </button>
+            </header>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Total Votes</div>
+                    <div class="stat-value" id="totalVotes">-</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Design Options</div>
+                    <div class="stat-value">7</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Notes Received</div>
+                    <div class="stat-value" id="totalNotes">-</div>
+                </div>
+            </div>
+
+            <h2
+                style="
+                    font-family: Georgia, serif;
+                    font-size: 20px;
+                    margin-bottom: 16px;
+                ">
+                Vote Breakdown
+            </h2>
+            <table class="results-table">
+                <thead>
+                    <tr>
+                        <th class="rank-cell">Rank</th>
+                        <th>Design Style</th>
+                        <th>Votes</th>
+                        <th>Distribution</th>
+                    </tr>
+                </thead>
+                <tbody id="resultsBody">
+                    <tr>
+                        <td colspan="4" class="loading">Loading results...</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="notes-section-admin">
+                <h2
+                    style="
+                        font-family: Georgia, serif;
+                        font-size: 20px;
+                        margin-bottom: 16px;
+                    ">
+                    Feedback Notes
+                </h2>
+                <div class="notes-list" id="notesList">
+                    <div class="loading">Loading notes...</div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // Environment variables are injected by Vercel during build
+            const UPSTASH_REDIS_REST_URL =
+                'https://enhanced-tahr-57846.upstash.io';
+            const UPSTASH_REDIS_REST_TOKEN =
+                'AeH2AAIncDEzMmJiZjg0ZTI5MzY0ODk1YTNiZTc1OTU0ZDMzNzNmOXAxNTc4NDY';
+
+            const DESIGNS = [
+                'Neo-Brutalism',
+                'Glassmorphism',
+                'Neumorphism',
+                'Claymorphism',
+                'Cyberpunk UI',
+                'Material Design',
+                'Minimalism',
+            ];
+
+            const MEDALS = { 0: '🥇', 1: '🥈', 2: '🥉' };
+
+            const USE_REDIS =
+                UPSTASH_REDIS_REST_URL && UPSTASH_REDIS_REST_TOKEN;
+
+            async function redisCommand(command) {
+                if (!USE_REDIS) return null;
+                try {
+                    const response = await fetch(UPSTASH_REDIS_REST_URL, {
+                        method: 'POST',
+                        headers: {
+                            Authorization: `Bearer ${UPSTASH_REDIS_REST_TOKEN}`,
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(command),
+                    });
+                    return await response.json();
+                } catch (e) {
+                    console.error('Redis command failed:', e);
+                    return null;
+                }
+            }
+
+            async function getVotesFromRedis() {
+                const result = await redisCommand(['HGETALL', 'neraxa:votes']);
+                if (result && result.result) {
+                    const votes = {};
+                    const arr = result.result;
+                    for (let i = 0; i < arr.length; i += 2) {
+                        votes[arr[i]] = parseInt(arr[i + 1], 10);
+                    }
+                    return votes;
+                }
+                return null;
+            }
+
+            async function getNotesFromRedis() {
+                const result = await redisCommand(['HGETALL', 'neraxa:notes']);
+                if (result && result.result) {
+                    const notes = [];
+                    const arr = result.result;
+                    for (let i = 0; i < arr.length; i += 2) {
+                        try {
+                            notes.push(JSON.parse(arr[i + 1]));
+                        } catch (e) {}
+                    }
+                    return notes.sort((a, b) => b.timestamp - a.timestamp);
+                }
+                return [];
+            }
+
+            function getVotesFromLocal() {
+                try {
+                    const r = localStorage.getItem('neraxa_v1_votes');
+                    if (r) return JSON.parse(r);
+                } catch (_) {}
+                return {
+                    'Neo-Brutalism': 47,
+                    Glassmorphism: 89,
+                    Neumorphism: 34,
+                    Claymorphism: 56,
+                    'Cyberpunk UI': 73,
+                    'Material Design': 61,
+                    Minimalism: 45,
+                };
+            }
+
+            function getNotesFromLocal() {
+                try {
+                    return JSON.parse(
+                        localStorage.getItem('neraxa_v1_notes') || '[]',
+                    );
+                } catch (_) {
+                    return [];
+                }
+            }
+
+            async function getVotes() {
+                if (USE_REDIS) {
+                    const redisVotes = await getVotesFromRedis();
+                    if (redisVotes && Object.keys(redisVotes).length > 0) {
+                        return redisVotes;
+                    }
+                }
+                return getVotesFromLocal();
+            }
+
+            async function getNotes() {
+                if (USE_REDIS) {
+                    const redisNotes = await getNotesFromRedis();
+                    if (redisNotes && redisNotes.length > 0) {
+                        return redisNotes;
+                    }
+                }
+                return getNotesFromLocal();
+            }
+
+            async function renderResults() {
+                const votes = await getVotes();
+                const sorted = Object.entries(votes).sort(
+                    (a, b) => b[1] - a[1],
+                );
+                const total = sorted.reduce((sum, [, count]) => sum + count, 0);
+                const maxV = sorted[0]?.[1] || 1;
+
+                document.getElementById('totalVotes').textContent = total;
+
+                const tbody = document.getElementById('resultsBody');
+                tbody.innerHTML = '';
+
+                if (sorted.length === 0) {
+                    tbody.innerHTML =
+                        '<tr><td colspan="4" class="loading">No votes yet</td></tr>';
+                    return;
+                }
+
+                sorted.forEach(([name, count], idx) => {
+                    const pct = Math.round((count / maxV) * 100);
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td class="rank-cell">
+                            <span class="medal">${MEDALS[idx] || idx + 1}</span>
+                        </td>
+                        <td class="design-name">${name}</td>
+                        <td class="vote-count">${count}</td>
+                        <td>
+                            <div class="bar-container">
+                                <div class="bar-fill" style="width: ${pct}%"></div>
+                            </div>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            }
+
+            async function renderNotes() {
+                const notes = await getNotes();
+                document.getElementById('totalNotes').textContent =
+                    notes.length;
+
+                const notesList = document.getElementById('notesList');
+                if (notes.length === 0) {
+                    notesList.innerHTML =
+                        '<div class="no-notes">No notes submitted yet</div>';
+                    return;
+                }
+
+                notesList.innerHTML = '';
+                notes.forEach((note) => {
+                    const date = new Date(note.timestamp).toLocaleString();
+                    const card = document.createElement('div');
+                    card.className = 'note-card';
+                    card.innerHTML = `
+                        <div class="note-header">
+                            <span class="note-design">${escapeHtml(note.design)}</span>
+                            <span class="note-date">${date}</span>
+                        </div>
+                        <p class="note-text">${escapeHtml(note.notes)}</p>
+                    `;
+                    notesList.appendChild(card);
+                });
+            }
+
+            function escapeHtml(text) {
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+
+            async function refreshAll() {
+                await renderResults();
+                await renderNotes();
+            }
+
+            // Init
+            refreshAll();
+        </script>
+    </body>
+</html>

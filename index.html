@@ -1,0 +1,553 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Neraxa - Design Vote</title>
+        <link rel="icon" type="image/png" href="favicon.png" />
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <div class="container">
+            <!-- HEADER -->
+            <header class="header">
+                <div class="brand">
+                    <img src="favicon.png" alt="Neraxa" class="brand-logo" />
+                    <span class="brand-name">Neraxa</span>
+                    <div class="brand-divider"></div>
+                    <span class="brand-badge">Design Vote</span>
+                </div>
+                <div class="hero-eyebrow">
+                    <div class="eyebrow-dot"></div>
+                    <span class="eyebrow-text"
+                        >Community Survey · Open Now</span
+                    >
+                </div>
+                <h1 class="hero-title">
+                    Shape the look<br />of <em>Neraxa</em>
+                </h1>
+                <p class="hero-desc">
+                    We're choosing the visual direction for our finance tracker.
+                    Cast your vote for the design language you'd love to use -
+                    the top 3 styles will actually be built into the product.
+                </p>
+                <div class="hero-pills">
+                    <div class="pill"><span>✦</span> One vote per person</div>
+                    <div class="pill"><span>✦</span> Top 3 get developed</div>
+                    <div class="pill"><span>✦</span> 7 design styles</div>
+                </div>
+            </header>
+
+            <!-- VOTED NOTICE -->
+            <div class="voted-notice" id="votedNotice">
+                <div class="voted-notice-icon">✓</div>
+                <span
+                    >You've already cast your vote. Results are shown
+                    below.</span
+                >
+            </div>
+
+            <!-- VOTE SECTION -->
+            <section id="voteSection">
+                <div class="section-eyebrow">Step 01 - Select</div>
+                <h2 class="section-title">
+                    Choose your preferred design style
+                </h2>
+                <p class="section-sub">
+                    Click a card to select it. Hit
+                    <strong style="color: var(--text-muted)">Try it →</strong>
+                    to explore how each style feels interactively.
+                </p>
+
+                <div class="cards-grid" id="cardsGrid">
+                    <!-- NEO-BRUTALISM -->
+                    <div
+                        class="design-card"
+                        data-design="Neo-Brutalism"
+                        role="button"
+                        tabindex="0">
+                        <input
+                            type="radio"
+                            name="design"
+                            value="Neo-Brutalism"
+                            class="card-radio" />
+                        <div class="card-top">
+                            <span class="card-name">Neo-Brutalism</span>
+                            <div class="card-radio-ui">
+                                <div class="card-radio-dot"></div>
+                            </div>
+                        </div>
+                        <p class="card-desc">
+                            Thick black borders, bright contrasting colors,
+                            large typography, raw and bold UI elements.
+                        </p>
+                        <div class="mock-wrap">
+                            <div class="mock-neo">
+                                <div class="nb-bal">
+                                    <span class="nb-lbl">Balance</span
+                                    ><span class="nb-amt">$12,430</span>
+                                </div>
+                                <div class="nb-row">
+                                    <div class="nb-stat inc">
+                                        <span class="nb-slbl">Income</span
+                                        ><span class="nb-sval">+$3,200</span>
+                                    </div>
+                                    <div class="nb-stat exp">
+                                        <span class="nb-slbl">Expense</span
+                                        ><span class="nb-sval">-$1,840</span>
+                                    </div>
+                                </div>
+                                <div class="nb-txs">
+                                    <div class="nb-tx">
+                                        <span>Netflix</span><span>-$15</span>
+                                    </div>
+                                    <div class="nb-tx">
+                                        <span>Salary</span><span>+$3,200</span>
+                                    </div>
+                                    <div class="nb-tx">
+                                        <span>Groceries</span><span>-$82</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="card-try-btn" data-demo="Neo-Brutalism">
+                            Try it <span class="tib">→</span>
+                        </button>
+                    </div>
+
+                    <!-- GLASSMORPHISM -->
+                    <div
+                        class="design-card"
+                        data-design="Glassmorphism"
+                        role="button"
+                        tabindex="0">
+                        <input
+                            type="radio"
+                            name="design"
+                            value="Glassmorphism"
+                            class="card-radio" />
+                        <div class="card-top">
+                            <span class="card-name">Glassmorphism</span>
+                            <div class="card-radio-ui">
+                                <div class="card-radio-dot"></div>
+                            </div>
+                        </div>
+                        <p class="card-desc">
+                            Transparent glass-like panels, blurred gradients,
+                            soft semi-transparent borders.
+                        </p>
+                        <div class="mock-wrap">
+                            <div class="mock-glass">
+                                <div class="gb1"></div>
+                                <div class="gb2"></div>
+                                <div class="gl-panel">
+                                    <span class="gl-lbl">Balance</span
+                                    ><span class="gl-amt">$12,430</span>
+                                </div>
+                                <div class="gl-row">
+                                    <div class="gl-stat">
+                                        <span class="gl-slbl">Income</span
+                                        ><span class="gl-sval">+$3,200</span>
+                                    </div>
+                                    <div class="gl-stat">
+                                        <span class="gl-slbl">Expense</span
+                                        ><span class="gl-sval">-$1,840</span>
+                                    </div>
+                                </div>
+                                <div class="gl-txs">
+                                    <div class="gl-tx">
+                                        <span>Netflix</span><span>-$15</span>
+                                    </div>
+                                    <div class="gl-tx">
+                                        <span>Salary</span><span>+$3,200</span>
+                                    </div>
+                                    <div class="gl-tx">
+                                        <span>Groceries</span><span>-$82</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="card-try-btn" data-demo="Glassmorphism">
+                            Try it <span class="tib">→</span>
+                        </button>
+                    </div>
+
+                    <!-- NEUMORPHISM -->
+                    <div
+                        class="design-card"
+                        data-design="Neumorphism"
+                        role="button"
+                        tabindex="0">
+                        <input
+                            type="radio"
+                            name="design"
+                            value="Neumorphism"
+                            class="card-radio" />
+                        <div class="card-top">
+                            <span class="card-name">Neumorphism</span>
+                            <div class="card-radio-ui">
+                                <div class="card-radio-dot"></div>
+                            </div>
+                        </div>
+                        <p class="card-desc">
+                            Soft shadows, embossed and debossed effects,
+                            elements blending into the background surface.
+                        </p>
+                        <div class="mock-wrap">
+                            <div class="mock-neu">
+                                <div class="nm-panel">
+                                    <span class="nm-lbl">Balance</span
+                                    ><span class="nm-amt">$12,430</span>
+                                </div>
+                                <div class="nm-row">
+                                    <div class="nm-stat">
+                                        <span class="nm-slbl">Income</span
+                                        ><span class="nm-sval inc"
+                                            >+$3,200</span
+                                        >
+                                    </div>
+                                    <div class="nm-stat">
+                                        <span class="nm-slbl">Expense</span
+                                        ><span class="nm-sval exp"
+                                            >-$1,840</span
+                                        >
+                                    </div>
+                                </div>
+                                <div class="nm-txs">
+                                    <div class="nm-tx">
+                                        <span>Netflix</span><span>-$15</span>
+                                    </div>
+                                    <div class="nm-tx">
+                                        <span>Salary</span><span>+$3,200</span>
+                                    </div>
+                                    <div class="nm-tx">
+                                        <span>Groceries</span><span>-$82</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="card-try-btn" data-demo="Neumorphism">
+                            Try it <span class="tib">→</span>
+                        </button>
+                    </div>
+
+                    <!-- CLAYMORPHISM -->
+                    <div
+                        class="design-card"
+                        data-design="Claymorphism"
+                        role="button"
+                        tabindex="0">
+                        <input
+                            type="radio"
+                            name="design"
+                            value="Claymorphism"
+                            class="card-radio" />
+                        <div class="card-top">
+                            <span class="card-name">Claymorphism</span>
+                            <div class="card-radio-ui">
+                                <div class="card-radio-dot"></div>
+                            </div>
+                        </div>
+                        <p class="card-desc">
+                            Rounded chunky elements, pastel colors, thick
+                            solid-offset shadows giving a 3D clay-like lift.
+                        </p>
+                        <div class="mock-wrap">
+                            <div class="mock-clay">
+                                <div class="cl-hero">
+                                    <span class="cl-lbl">Balance</span
+                                    ><span class="cl-amt">$12,430</span>
+                                </div>
+                                <div class="cl-row">
+                                    <div class="cl-stat inc">
+                                        <span class="cl-slbl">Income</span
+                                        ><span class="cl-sval">+$3,200</span>
+                                    </div>
+                                    <div class="cl-stat exp">
+                                        <span class="cl-slbl">Expense</span
+                                        ><span class="cl-sval">-$1,840</span>
+                                    </div>
+                                </div>
+                                <div class="cl-txs">
+                                    <div class="cl-tx">
+                                        <span>Netflix</span><span>-$15</span>
+                                    </div>
+                                    <div class="cl-tx">
+                                        <span>Salary</span><span>+$3,200</span>
+                                    </div>
+                                    <div class="cl-tx">
+                                        <span>Groceries</span><span>-$82</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="card-try-btn" data-demo="Claymorphism">
+                            Try it <span class="tib">→</span>
+                        </button>
+                    </div>
+
+                    <!-- CYBERPUNK UI -->
+                    <div
+                        class="design-card"
+                        data-design="Cyberpunk UI"
+                        role="button"
+                        tabindex="0">
+                        <input
+                            type="radio"
+                            name="design"
+                            value="Cyberpunk UI"
+                            class="card-radio" />
+                        <div class="card-top">
+                            <span class="card-name">Cyberpunk UI</span>
+                            <div class="card-radio-ui">
+                                <div class="card-radio-dot"></div>
+                            </div>
+                        </div>
+                        <p class="card-desc">
+                            Dark futuristic interface, neon glow accents, sci-fi
+                            grid overlays, cyber aesthetics.
+                        </p>
+                        <div class="mock-wrap">
+                            <div class="mock-cyber">
+                                <div class="cy-grid"></div>
+                                <div class="cy-scan"></div>
+                                <div class="cy-panel">
+                                    <span class="cy-lbl">Balance</span
+                                    ><span class="cy-amt">$12,430</span>
+                                </div>
+                                <div class="cy-row">
+                                    <div class="cy-stat inc">
+                                        <span class="cy-slbl">Income</span
+                                        ><span class="cy-sval">+$3,200</span>
+                                    </div>
+                                    <div class="cy-stat exp">
+                                        <span class="cy-slbl">Expense</span
+                                        ><span class="cy-sval">-$1,840</span>
+                                    </div>
+                                </div>
+                                <div class="cy-txs">
+                                    <div class="cy-tx">
+                                        <span>Netflix</span><span>-$15</span>
+                                    </div>
+                                    <div class="cy-tx">
+                                        <span>Salary</span><span>+$3,200</span>
+                                    </div>
+                                    <div class="cy-tx">
+                                        <span>Groceries</span><span>-$82</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="card-try-btn" data-demo="Cyberpunk UI">
+                            Try it <span class="tib">→</span>
+                        </button>
+                    </div>
+
+                    <!-- MATERIAL DESIGN 3 -->
+                    <div
+                        class="design-card"
+                        data-design="Material Design"
+                        role="button"
+                        tabindex="0">
+                        <input
+                            type="radio"
+                            name="design"
+                            value="Material Design"
+                            class="card-radio" />
+                        <div class="card-top">
+                            <span class="card-name">Material Design 3</span>
+                            <div class="card-radio-ui">
+                                <div class="card-radio-dot"></div>
+                            </div>
+                        </div>
+                        <p class="card-desc">
+                            Google's design system - tonal color palettes,
+                            rounded containers, expressive elevation.
+                        </p>
+                        <div class="mock-wrap">
+                            <div class="mock-md">
+                                <div class="md-hero">
+                                    <span class="md-hlbl">Balance</span
+                                    ><span class="md-hamt">$12,430</span>
+                                </div>
+                                <div class="md-row">
+                                    <div class="md-stat inc">
+                                        <span class="md-slbl">Income</span
+                                        ><span class="md-sval">+$3,200</span>
+                                    </div>
+                                    <div class="md-stat exp">
+                                        <span class="md-slbl">Expense</span
+                                        ><span class="md-sval">-$1,840</span>
+                                    </div>
+                                </div>
+                                <div class="md-txs">
+                                    <div class="md-tx">
+                                        <span>Netflix</span><span>-$15</span>
+                                    </div>
+                                    <div class="md-tx">
+                                        <span>Salary</span><span>+$3,200</span>
+                                    </div>
+                                    <div class="md-tx">
+                                        <span>Groceries</span><span>-$82</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button
+                            class="card-try-btn"
+                            data-demo="Material Design">
+                            Try it <span class="tib">→</span>
+                        </button>
+                    </div>
+
+                    <!-- MINIMALISM -->
+                    <div
+                        class="design-card"
+                        data-design="Minimalism"
+                        role="button"
+                        tabindex="0">
+                        <input
+                            type="radio"
+                            name="design"
+                            value="Minimalism"
+                            class="card-radio" />
+                        <div class="card-top">
+                            <span class="card-name">Minimalism</span>
+                            <div class="card-radio-ui">
+                                <div class="card-radio-dot"></div>
+                            </div>
+                        </div>
+                        <p class="card-desc">
+                            Generous whitespace, typography-led hierarchy,
+                            ultra-clean 2D interface with restraint.
+                        </p>
+                        <div class="mock-wrap">
+                            <div class="mock-min">
+                                <span class="mn-lbl">Total Balance</span
+                                ><span class="mn-amt">$12,430</span>
+                                <div class="mn-hr"></div>
+                                <div class="mn-row">
+                                    <div>
+                                        <span class="mn-slbl">Income</span
+                                        ><span class="mn-sval inc">$3,200</span>
+                                    </div>
+                                    <div>
+                                        <span class="mn-slbl">Expense</span
+                                        ><span class="mn-sval exp">$1,840</span>
+                                    </div>
+                                </div>
+                                <div class="mn-tx">
+                                    <span>Netflix</span><span>−$15</span>
+                                </div>
+                                <div class="mn-tx">
+                                    <span>Salary</span><span>+$3,200</span>
+                                </div>
+                                <div class="mn-tx">
+                                    <span>Groceries</span><span>−$82</span>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="card-try-btn" data-demo="Minimalism">
+                            Try it <span class="tib">→</span>
+                        </button>
+                    </div>
+                </div>
+                <!-- /cards-grid -->
+
+                <div class="submit-wrap" id="submitWrap">
+                    <button class="btn-vote" id="btnVote">Cast My Vote</button>
+                    <span class="submit-note" id="submitNote"
+                        >Select a design style to continue</span
+                    >
+                </div>
+
+                <!-- NOTES FIELD -->
+                <div
+                    class="notes-section"
+                    id="notesSection"
+                    style="display: none">
+                    <div class="section-eyebrow">Optional — Feedback</div>
+                    <h2 class="section-title">Leave a note (optional)</h2>
+                    <p class="section-sub">
+                        Share your thoughts about why you chose this design or
+                        any suggestions.
+                    </p>
+                    <textarea
+                        id="voteNotes"
+                        class="notes-textarea"
+                        placeholder="Tell us what you like about this design style, or any features you'd love to see..."
+                        rows="4"
+                        maxlength="500"></textarea>
+                    <div class="notes-actions">
+                        <button class="btn-submit-notes" id="btnSubmitNotes">
+                            Submit Vote
+                        </button>
+                        <span class="notes-hint">Max 500 characters</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CONFIRMATION -->
+            <div class="confirmation" id="confirmation">
+                <div class="conf-check">✓</div>
+                <h3 class="conf-title">Your vote is in!</h3>
+                <p class="conf-sub" id="confSub">
+                    Thank you for helping shape Neraxa's future.
+                </p>
+            </div>
+
+            <!-- RESULTS -->
+            <section class="results-section" id="resultsSection">
+                <div class="section-eyebrow">Step 02 - Results</div>
+                <h2 class="section-title">Community Preferences</h2>
+                <p class="section-sub">
+                    The top 3 highlighted styles will be developed and shipped
+                    in Neraxa.
+                </p>
+                <div class="results-list" id="resultsList"></div>
+            </section>
+
+            <!-- FOOTER -->
+            <footer class="footer">
+                <div class="footer-left">
+                    <img src="favicon.png" alt="Neraxa" class="footer-logo" />
+                    <span class="footer-text"
+                        >Neraxa · Design Community Vote</span
+                    >
+                </div>
+                <span class="footer-note"
+                    >Results are local to this browser session</span
+                >
+            </footer>
+        </div>
+        <!-- /container -->
+
+        <!-- MODAL -->
+        <div
+            class="modal-overlay"
+            id="modalOverlay"
+            role="dialog"
+            aria-modal="true">
+            <div class="modal-box" id="modalBox">
+                <div class="modal-header">
+                    <div>
+                        <div class="modal-eyebrow">Interactive Preview</div>
+                        <div class="modal-title" id="modalTitle">
+                            Neo-Brutalism
+                        </div>
+                    </div>
+                    <button
+                        class="modal-close"
+                        id="modalClose"
+                        aria-label="Close">
+                        ✕
+                    </button>
+                </div>
+                <p class="modal-desc" id="modalDesc"></p>
+                <div class="modal-demo" id="modalDemo"></div>
+            </div>
+        </div>
+
+        <script src="script.js"></script>
+    </body>
+</html>
